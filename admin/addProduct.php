@@ -1,7 +1,12 @@
 <?php
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])){
+
+
         $product_name = $_POST['product_name'];
         $product_category = $_POST['product_category'];
+        $product_price = $_POST['product_price'];
+
+
         $the_base_file = 'product_image/';
         $the_image_name = $_FILES['image']['name'];
         $the_file_extension = pathinfo(basename($the_image_name),PATHINFO_EXTENSION);
@@ -18,7 +23,11 @@
         }
 
         if(move_uploaded_file($_FILES['image']['tmp_name'],$full_file)){
+            try{
 
+            } catch(PDOException $e){
+                die('Failed Becuase Of ' . $e->getMessage());
+            }
         }
     }else{
         echo json_encode(['success'=>'bad']);
