@@ -41,6 +41,7 @@
         </select>
 
         <input type="number" id='product_price'>
+        <input type="number" id='product_in_stock'>
 
 
         <button id='addProduct'>Add Product</button>
@@ -58,6 +59,7 @@
         var product_price = document.getElementById('product_price');
         var productName = document.getElementById('productName');
         var productCategory = document.getElementById('category');
+        var product_in_stock = document.getElementById('product_in_stock');
 
         image.onchange = function(event){
             getting_image = event.target.files[0];
@@ -78,14 +80,13 @@
         the_product.addEventListener('click',function(){
             const the_form_data = new FormData();
             if(getting_image){
+
                 the_form_data.append('image',getting_image);
                 the_form_data.append('product_name',productName.value);
                 the_form_data.append('product_category',productCategory.value);
                 the_form_data.append('product_price',product_price.value);
-                the_product_data.product_name = productName.value;
-                the_product_data.product_image = getting_image;
-                the_product_data.product_price = product_price.value;
-                the_product_data.product_category = productCategory.value;
+                the_form_data.append('product_in_stock',product_in_stock.value);
+                console.log('hello')
 
                 var the_context = {
                     method:'POST',
@@ -93,7 +94,7 @@
                         'X-REQUESTED-WITH':'XMLHttpRequest'
                     },
                     body:the_form_data
-                }
+                };
 
                 fetch('addProduct.php',the_context).then(response=>{
                     return response.text();

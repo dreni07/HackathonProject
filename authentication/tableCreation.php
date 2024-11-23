@@ -3,6 +3,15 @@
 try{
     require 'db.inc.php';
 
+    $user_table = 'CREATE TABLE IF NOT EXISTS users(
+        id int primary key auto_increment,
+        username varchar(255),
+        email varchar(255),
+        password varchar(255)
+    )';
+
+    $pdo->exec($user_table);
+    
     $tabela0 = 'CREATE TABLE IF NOT EXISTS categories(
         category_id int primary key auto_increment,
         category_name varchar(255) not null

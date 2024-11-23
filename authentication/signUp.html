@@ -398,11 +398,13 @@ async function signUp(){
                 throw new Error('Something Went Wrong!');
             }
 
-            const answer = await response.json();
+            const answer = await response.text();
 
             if(answer.success){
                 window.location.href = 'logIn.html';
             }
+
+            console.log(answer);
         } catch(err){
             console.error(err);
         }

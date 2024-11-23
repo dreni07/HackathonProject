@@ -736,4 +736,401 @@ span a{
    </div>
 
 </body>
+
+<script>
+    // SEARCH BAR 
+
+var search_bar_results = document.querySelector('.search-bar-results');
+
+
+var the_input = document.getElementById('searchInput');
+the_input.addEventListener('keyup',()=>{
+    if(the_input.value.length > 0){
+        searchBar(the_input.value);
+        search_bar_results.style.display = 'flex';
+    }else{
+        search_bar_results.style.display = 'None';
+    }
+})
+
+// this will display all the data you looked to before
+// when you click on the search bar
+
+the_input.addEventListener('click',function(){
+    search_bar_results.style.display = 'flex';
+    if(the_input.value.length == 0){
+        var the_children = Array.from(search_bar_results.children);
+        the_children.forEach(ch=>{
+            ch.remove();
+        })
+
+        if(getIdsClicked()){
+            getIdsClicked().then(answer=>{
+                if(answer){
+                    var into_an_array = Array.from(answer.data);
+                    var getCookieData = JSON.parse(decodeURIComponent(getCookie('products_clicked')));
+                    into_an_array.forEach(a=>{
+                        creatingUI(a,getCookieData);
+                    })
+                }
+                
+            })
+        }
+        
+        
+       
+    }
+    
+
+})
+
+
+async function searchBar(the_input_value){
+        var the_children_divs = search_bar_results.children ? Array.from(search_bar_results.children) : [];
+
+        the_children_divs.forEach((ch)=>{ 
+            ch.remove();
+        })
+
+        try{
+            const response = await fetch(`searchBar.php?product_name=${the_input_value}`);
+            if(!response.ok){
+                throw new Error('Error During The Proccess');
+            }
+
+            const answer = await response.json();
+
+            console.log(answer);
+
+
+
+            if(answer.success){
+                var answer_data = answer.data;
+                console.log(answer_data);
+                answer_data.forEach((a,index)=>{
+                    const the_cookie_data = getCookie('products_clicked') ? JSON.parse(decodeURIComponent(getCookie('products_clicked'))) : [];
+                    creatingUI(a,the_cookie_data);
+                })
+            }
+
+            console.log(answer);
+
+        } catch(err){
+            console.error(err);
+
+        }
+        
+}
+
+
+
+
+function setCookie(cookie_name,sections_clicked){
+    var cookieLifeTime_ = cookieLifeTime();
+    document.cookie = `${cookie_name}=${encodeURIComponent(JSON.stringify(sections_clicked))};expires=${cookieLifeTime_};path=/`;
+}
+
+
+function getCookie(cookieName){
+    let the_cookie = `; ${document.cookie}`;
+    let the_value = the_cookie.split(`; ${cookieName}=`);// 
+    if(the_value.length === 2) return the_value.pop().split(';').shift();
+}
+
+function settingCookie(){
+    const new_cookie = [];
+    const cookieName = 'products_clicked';
+    var all_sections = document.querySelectorAll('.div-product');
+    if(all_sections){
+        all_sections.forEach((div_product,index)=>{
+            div_product.onclick = function(){
+                var get_the_id = this.dataset.id;
+                var currentCookie = getCookie(cookieName) ? JSON.parse(decodeURIComponent(getCookie(cookieName))) : null;
+                sendingCookieData(get_the_id);
+                if(currentCookie){
+                    if(!(currentCookie.includes(get_the_id))){
+                        currentCookie.push(get_the_id);
+                    }
+                    setCookie(cookieName,currentCookie);
+                }else{
+                    new_cookie.push(get_the_id);
+                    setCookie(cookieName,new_cookie);
+                }
+            }
+        })
+    }
+}
+
+
+
+async function sendingCookieData(the_id_of_product){
+    try{
+        const data_to_sent = new FormData();
+        data_to_sent.append('product_clicked_id',the_id_of_product);
+    
+        var the_context = {
+            method:'POST',
+            body:data_to_sent
+        };
+
+        const response = await fetch('getCookieData.php',the_context);
+        if(!response.ok){
+            throw new Error('Error Occoured');
+        }
+        const answer = await response.json();
+        console.log(answer);
+    } catch(err){
+        console.error(err);
+    }
+}
+
+async function getIdsClicked(){
+    try{
+        const response = await fetch('getCookieData.php');
+
+        if(!response.ok){
+            throw new Error('Something Went Wrong!');
+        }
+
+        const answer = await response.json();
+        console.log(answer);
+        if(answer.success == true){
+            return answer;
+        }
+
+        return;
+     
+
+    } catch(err){
+        console.error(err);
+    }
+}
+
+
+function creatingUI(a,cookieData){
+    // THE CODE COMENTED DOWN BELOW WAS RAISING SOME MALICIOUS BUGSSSSSS!!!
+
+    // let the_cookies = JSON.parse(decodeURIComponent(getCookie('products_clicked'))) ? getCookie('products_clicked') : [];
+
+
+    var all_divs = document.querySelectorAll('.div-product') ? document.querySelectorAll('.div-product') : null;
+    var the_array_with_data = all_divs ? Array.from(all_divs).map((the_div)=>{
+    var the_data_attr = the_div.dataset.id;
+        return parseFloat(the_data_attr);
+    }) : [];
+    var div_product = document.createElement('div');
+    var name_price = document.createElement('div');
+    var image_part = document.createElement('div');
+    var image = document.createElement('img');
+    var product_name = document.createElement('p');
+    var product_price = document.createElement('p');
+
+
+    // send to the page of ordering when clicking on the div
+
+    // div_product.addEventListener('click',function(){
+    //     window.location.href = `addToCart.php/?product_id=${a.product_id}`;
+    // })
+
+
+    product_name.textContent = a.product_name;
+    product_price.textContent = a.product_price.toString() + `$`;
+    image.src = `../admin/product_image/${a.product_image}`;
+
+
+    div_product.className = 'div-product';
+    div_product.dataset.id = a.product_id;
+
+    name_price.append(product_name);
+    name_price.append(product_price);
+    image_part.append(image);
+
+    div_product.append(name_price);
+    div_product.append(image_part);
+
+    settingCookie();
+
+    if(cookieData.includes(a.product_id.toString())){
+        div_product.classList.add('product-class-added');
+    }
+
+    
+
+    if(!(the_array_with_data.includes(a.product_id))){
+        search_bar_results.append(div_product);
+    }
+}   
+
+
+
+function cookieLifeTime(){
+    let the_date = new Date();
+    the_date.setDate(the_date.getDate() + 7);
+    return the_date.toUTCString();
+}
+
+
+function makingPagination(page){
+    fetch(`pagination.php?page=${page}`).then(response=>{
+        return response.json();
+    }).then(answer=>{
+        get_all_data(answer.the_data);
+        gettingNumberOfPages(answer.total_pages)
+        console.log(answer);
+    })
+}
+
+function get_all_data(data){
+    var into_array = Array.from(data);
+    var container_products = document.querySelector('.container-products');
+    if(Array.from(container_products.children).length !== 0){
+        while(container_products.firstChild){
+            container_products.removeChild(container_products.firstChild);
+        }
+        toDisplayAll(container_products,into_array);
+    }else{
+        toDisplayAll(container_products,into_array);
+    }
+}
+
+var all_descriptions = [];
+
+
+function toDisplayAll(the_parent,the_data){
+    the_data.forEach((d,index)=>{
+        var number_of_products = d.product_in_stock;
+        all_descriptions.push(d.product_description);
+
+        var product_card = document.createElement('div');
+        var the_div_heart = document.createElement('div');
+        var content_div = document.createElement('div');
+
+
+        for(let j = 0;j<3;j++){
+            var div_content = document.createElement('div');
+            div_content.className = `div${j+1}`;
+            content_div.append(div_content);
+        }
+
+
+
+            createDomElement(2,'p',[d.product_name,d.product_price],content_div.children[0]);
+            var the_button = createDomElement(1,'button',['Add to Cart'],content_div.children[2]);
+            the_button.onclick = function(){
+                window.location.href = `addToCart.php/?product_id=${d.product_id}`;
+            }
+            var reading_description = document.createElement('p');
+            reading_description.innerHTML = 'Read Description';
+            reading_description.className = 'ReadDescription';
+            reading_description.onclick = function(){
+                var read_description = document.querySelector('.read-description');
+                read_description.classList.add('read-description-class-added');
+                setTimeout(()=>{
+                    document.querySelector('.description-card').style.opacity = 1;
+                },200)
+                var description_text = document.querySelector('.description-text');
+                description_text.innerHTML = d.product_description;
+            }
+
+            content_div.children[1].append(reading_description);
+
+            content_div.className = 'div_content';
+            the_div_heart.className = 'the_div_heart';
+            var the_heart_image = document.createElement('img');
+            the_heart_image.src = '../website_images/heart-icon.png';
+
+
+            // addTransition(the_div_heart,d.product_id);
+
+            // checkState(d.product_id).then(ans=>{
+            //     var the_answer = ans;
+            //     if(the_answer.success == 'True'){
+            //         the_div_heart.classList.add('active-class');
+            //     }
+            // })
+
+
+
+            product_card.className = 'product-card';
+            var image_div = document.createElement('div');
+            var image = document.createElement('img');
+            image_div.className = 'my_div_image';
+            var alert_div = document.createElement('div');
+            alert_div.className = 'alert-div';
+            if(!(number_of_products >= 1)){
+                var tooltip_div = document.createElement('div');
+                tooltip_div.className = 'tooltip-info';
+                tooltip_div.innerHTML = 'Click Here To See Products Similar To This In The Future';
+                image_div.append(tooltip_div);
+                alert_div.style.opacity = 1;
+                image.classList.add('gray-scale-change');
+                the_button.disabled = true;
+                the_div_heart.disabled = false;
+                the_div_heart.classList.add('non-disabled');
+            }else{
+                the_div_heart.disabled = true;
+            }
+            // alerting_users();
+
+            console.log(`${d.product_id} The Button: ${the_div_heart.disabled}`)
+            alert_div.innerHTML = 'Sold Out';
+            image.style.height = '170px';
+            image.style.width = '200px';
+
+            image.src = `../product_images/${d.product_image}`;
+            image_div.append(image);
+            image_div.append(alert_div);
+
+            the_parent.append(product_card);
+            product_card.append(image_div);
+            product_card.append(the_div_heart);
+            product_card.append(content_div);
+            the_div_heart.append(the_heart_image);
+
+        })
+
+
+
+}
+        
+
+ 
+
+    // function addTransition(the_div,product_id){
+    //     if(!(the_div.disabled)){
+    //         the_div.onclick = function(){
+    //         const the_form_data = new FormData();
+    //         the_form_data.append('product_id',product_id);
+    //         this.classList.add('active-class');
+    //         var the_context = {
+    //             method:'POST',
+    //             body:the_form_data
+    //         }
+    //         fetch('wishList.php',the_context).then(response=>{
+    //             return response.json();
+    //         }).then(answer=>{
+    //             console.log(answer);
+    //         });
+
+    //     }
+    //     }
+    // }
+
+
+
+    function createDomElement(the_number_of_elements,the_element_type,the_content_to_be_added,parent_div){
+        var new_element;
+        for(let j = 0;j<the_number_of_elements;j++){
+            new_element = document.createElement(the_element_type);
+            if(the_content_to_be_added.length > 0){
+                new_element.innerHTML = the_content_to_be_added[j];
+                new_element.className = the_content_to_be_added[j].split(' ').join('');
+            }
+            parent_div.append(new_element);
+        }
+        return new_element;
+
+    }
+
+</script>
 </html>
