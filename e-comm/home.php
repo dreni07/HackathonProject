@@ -767,6 +767,7 @@ the_input.addEventListener('click',function(){
         if(getIdsClicked()){
             getIdsClicked().then(answer=>{
                 if(answer){
+                    console.log(answer);
                     var into_an_array = Array.from(answer.data);
                     var getCookieData = JSON.parse(decodeURIComponent(getCookie('products_clicked')));
                     into_an_array.forEach(a=>{
