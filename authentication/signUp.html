@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel='stylesheet' href='../css/logIn.css?v=1.0'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim|Roboto Slab|Athiti|Cabin Condensed|Lora|Montserrat|Merriweather|Brusher|Pacifico">
+    <style>
+        body{
+    margin:0;
+    padding:0;
+    background:url('../images/gradient-back.avif');
+    background-size:cover;
+    background-repeat:no-repeat;
+    overflow:hidden;
+}
+.container{
+    height:100vh;
+    width:100%;
+    display:grid;
+    place-items:center;
+    position:relative;
+}
+
+
+.container .form-container{
+    height:80%;
+    width:75%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+    border-radius:2px;
+    display:flex;
+    position:absolute;
+    left:-40%;
+    transform:translateX(-50%);
+    transition:.3s ease-in-out;
+    background-color:rgb(255, 250, 250);
+    color:#f9dbe0 ;
+}
+
+.container .form-container .left-side-container{
+    height:100%;
+    width:35%;
+    /* background-color:rgb(208, 255, 208)  ; */
+    background-color:rgb(211, 237, 246);
+    display:grid;
+    grid-template-rows:1fr 1fr;
+}
+
+.container .form-container .left-side-container .introduction-container .text-part{
+    padding-left:20px;
+}
+
+.introduction-container .text-part h3{
+    color:black;
+    font-family:'Roboto Slab';
+    font-weight:1000;
+    letter-spacing:1px;
+    font-size:25px;
+    
+}
+
+.introduction-container .text-part p{
+    color:#333;
+    font-family:'Athiti';
+    font-weight:1000;
+    font-size:20px;
+    color:rgb(26, 26, 71);
+}
+
+.left-side-container .image-container{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.form-container .right-side-container{
+    width:65%;
+    height:100%;
+    position:relative;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.form-container .right-side-container .log-in-option{
+    position:absolute;
+    right:2%;
+    top:2%;
+
+}
+.log-in-option span{
+    color:#333;
+    font-family:'Athiti';
+    font-weight:500;
+    font-size:13px;
+}
+.log-in-option a{
+    text-decoration:none;
+    color:#7BA3D8;
+    font-family:'Anaheim';
+    font-size:13px;
+    font-weight:1000;
+}
+
+.form-container-right-side{
+    height:80%;
+    width:60%;
+}
+
+.form-container-right-side h1{
+    color:#333;
+    font-weight:1000;
+    font-family:'Athiti';
+}
+
+.name-username input{
+    margin:0 2px;
+    border:none;
+    outline:none;
+    background-color:rgb(230, 230, 230);
+    padding:6px 8px;
+    border-radius:4px;
+    font-family:'Athiti';
+    transition:.5s ease-in-out;
+}
+input:hover{
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+
+}
+input::placeholder{
+    font-family:'Anaheim';
+    font-weight:500;
+    opacity:0.9;
+}
+.form-to-submit > div{
+    margin:30px 0;
+}
+.email input,.password input{
+    width:80%;
+    padding:10px 22px;
+    border:none;
+    background-color:rgb(230, 230, 230);
+    outline:none;
+    border-radius:4px;
+    font-family:'Athiti';
+    transition: .5s ease-in-out;
+}
+
+.password{
+    position:relative;
+}
+.password-information{
+    position:absolute;
+    right:-50%;
+    top:50%;
+    transform:translateY(-50%);
+    height:100px;
+    width:200px;
+    border-radius:8px;
+    background-color:#333;
+    opacity:0;
+    transition:.5s ease-in-out;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.password-information ul{
+    width:100%;
+ 
+}
+
+
+.password-information ul li{
+    list-style-type:none;
+    color:white;
+    font-family:'Anaheim';
+    font-weight:500;
+    font-size:12px;
+
+}
+.password-information ul li img{
+    padding-right:4px;
+}
+
+.password:hover .password-information{
+    opacity:1;
+}
+.password-information::before{
+    content:'';
+    position:absolute;
+    top:50%;
+    left:0;
+    transform:translate(-100%,-50%);
+    border-right:6px solid #333;
+    border-left:5px solid transparent;
+    border-bottom:5px solid transparent;
+    border-top:5px solid transparent;
+}
+.create-account-button button{
+    padding:8px 17px;
+    cursor:pointer;
+    border:none;
+    background-color: #fcadc0;
+    font-family:'Roboto Slab';
+    font-weight:500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius:2px;
+    transition:.5s ease-in-out;
+}
+.create-account-button button:hover{
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 4px 6px rgba(0, 0, 0, 0.15);
+    background-color:rgba(0, 0, 0, 0.164);
+    
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+
+            <div class="left-side-container">
+
+                <div class="introduction-container">
+                    <div class="text-part">
+                        <h3>Shopcart</h3>
+                        <p>Discover The World Of<br>
+                        The Biggest Online Shop&<br>
+                        Community</p>
+                    </div>
+                    
+                </div>
+
+                <div class="image-container">
+
+                    <img src="../images/back-of.png" height='180' width='200'>
+
+                </div>
+
+
+            </div>
+
+            <div class="right-side-container">
+                <div class="log-in-option">
+                    <span>Alredy a member?</span>
+                    <button id='signInButton' style='color:#7BA3D8;border:none;background-color:transparent;font-family:"Roboto Slab";font-weight:500;font-size:13px; cursor:pointer;'>Sign In</button>
+
+                </div>
+
+                <div class="form-container-right-side">
+                    <h1>Sign up to Shopcart</h1>
+
+                    <div class="form-to-submit">
+                        <div class="name-username">
+                            <input type="text" placeholder='Username' id='username'>
+                        </div>
+
+                        <div class="email">
+                            <input type="text" placeholder='Email' id='email'> 
+                        </div>
+
+                        <div class="password">
+                            <input type="password" placeholder='Password' id='password'>
+                            <div class="password-information">
+                                <ul>
+                                    <li><img src="../images/x-icon.png" height='10' width='10' id='myImage'>Must Contains 8 Characters</li>
+                                    <li><img src="../images/x-icon.png" height='10' width='10' id='myImage'> At Least One Number</li>
+                                    <li><img src="../images/x-icon.png" height='10' width='10' id='myImage'>At Least One Special Character</li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                        <div class="agree-terms">
+                            <input type="checkbox" id='checkBoxButton'>
+                            <span id='myText' style='color:#333;font-family:"Anaheim"; font-size:15px;;'>Creating An Account Means That I Agree<br>
+                            With <b style='color:#7BA3D8;'>Terms&Services</b> and <b style='color:#7BA3D8;'>Privacy Policy</b></span>
+                        </div>
+
+                        <div class="create-account-button">
+                            <button id='signUpButton'>Create Account</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+<script>
+var text = document.getElementById('myText');
+var checkBoxButton = document.getElementById('checkBoxButton');
+function changingState(){
+    checkBoxButton.onchange = function(){
+        text.style.fontWeight = '1000';
+        this.onchange = function(){
+            text.style.fontWeight = '500';
+            changingState();
+        }
+    }
+  
+}
+
+changingState();
+
+function transitionOnAppear(){
+    var form_container = document.querySelector('.form-container');
+    window.addEventListener('DOMContentLoaded',function(){
+        var the_session_storage = sessionStorage.getItem('previousPage');
+        if(the_session_storage){
+            setTimeout(()=>{
+                form_container.style.left = '50%';
+            },100);
+            this.sessionStorage.removeItem('previousPage');
+        }else{
+            form_container.style.left = '50%';
+            form_container.style.transition = '0s ease-in-out';
+        }
+    })
+}
+
+transitionOnAppear();
+
+
+
+
+
+
+var username = document.getElementById('username');
+var email = document.getElementById('email');
+var the_password = document.getElementById('password');
+
+
+the_password.addEventListener('keyup',function(){
+        const containsSpecialChars = (str) => /[!@#$%^&*(),.?":{}|<>]/.test(str);
+        const containsNumber = (str) => /\d/.test(str);
+        const the_length = (str) => str.length >= 8 ? true:false;
+
+        if(containsNumber(the_password.value)){
+            my_images[1].src = '../images/true-icon.png';
+        }else{
+            my_images[1].src = '../images/x-icon.png';
+        }
+
+        if(containsSpecialChars(the_password.value)){
+            my_images[2].src = '../images/true-icon.png';
+        }else{
+            my_images[2].src = '../images/x-icon.png';
+
+        }
+
+        if(the_length(the_password.value)){
+            my_images[0].src = '../images/true-icon.png';
+        }else{
+            my_images[0].src = '../images/x-icon.png';
+        }
+})
+
+
+
+
+var passwordChecked = true;
+var my_images = document.querySelectorAll('#myImage');
+
+
+async function signUp(){
+
+    my_images.forEach((i)=>{
+        if(i.src == '../images/x-icon.png'){
+            passwordChecked = false;
+            console.log('Wrong Image');
+        }
+    })
+
+
+
+    if(username.value && email.value && passwordChecked)
+        var the_form_data = new FormData();
+
+        the_form_data.append('username',username.value);
+        the_form_data.append('email',email.value);
+        the_form_data.append('password',the_password.value);
+
+        try{
+            const context = {
+                method:'POST',
+                headers:{
+                    'X-REQUESTED-WITH':'XMLHttpRequest'
+                },
+                body:the_form_data
+            }
+            const response = await fetch('signUp.php',context);
+            if(!response.ok){
+                throw new Error('Something Went Wrong!');
+            }
+
+            const answer = await response.json();
+
+            if(answer.success){
+                window.location.href = 'logIn.html';
+            }
+        } catch(err){
+            console.error(err);
+        }
+    }
+
+    var signUpButton = document.getElementById('signUpButton');
+
+    signUpButton.addEventListener('click',signUp);
+
+
+    var signInButton = document.getElementById('signInButton');
+
+    signInButton.addEventListener('click',()=>{
+        sessionStorage.setItem('previousPage',window.location.href);
+        window.location.href = 'logIn.html';
+    })
+
+    function checkUserLogged(){
+        document.addEventListener('DOMContentLoaded',()=>{
+            fetch('validation.php').then(response=>{
+                return response.json();
+            }).then(answer=>{
+                if(answer.success){
+                    window.location.href = '../e-comm/home.php';
+                }
+            })
+        })
+    }
+
+    checkUserLogged();
+
+    
+
+
+</script>
+</html>

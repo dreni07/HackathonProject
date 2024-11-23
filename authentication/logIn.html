@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel='stylesheet' href='../css/logIn.css?v=1.0'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim|Roboto Slab|Athiti|Cabin Condensed|Lora|Montserrat|Merriweather|Brusher|Pacifico">
+    <style>
+body{
+    margin:0;
+    padding:0;
+    background:url('../images/gradient-back.avif');
+    background-size:cover;
+    background-repeat:no-repeat;
+    overflow:hidden;
+
+}
+
+
+.container{
+    height:100vh;
+    width:100%;
+    display:grid;
+    place-items:center;
+    position:relative;
+
+}
+
+.container .form-container{
+    height:80%;
+    width:75%;
+    background-color:white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+    border-radius:2px;
+    display:flex;
+    position:absolute;
+    left:-40%;
+    transform:translateX(-50%);
+    transition:.3s ease-in-out;
+
+}
+
+.container .form-container .left-side-container{
+    height:100%;
+    width:65%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    background-color:white;
+}
+
+.container .form-container .right-side-container{
+    height:100%;
+    width:35%;
+    display:grid;
+    grid-template-rows:1fr 1fr;
+    background-color:rgb(211, 237, 246);
+
+}
+
+.container .form-container .left-side-container .log-in-option{
+    position:absolute;
+    left:2%;
+    top:2%;
+}
+
+.log-in-option span{
+    color:#333;
+    font-family:'Athiti';
+    font-weight:500;
+    font-size:13px;
+}
+.log-in-option #signUpButton{
+    border:none;
+    background-color:transparent;
+    color:#7BA3D8;
+    font-family:'Anaheim';
+    font-size:13px;
+    font-weight:1000;
+}
+
+.form-container-left-side{
+    height:80%;
+    width:60%;
+}
+
+.form-container-left-side h1{
+    color:#333;
+    font-weight:1000;
+    font-family:'Athiti';
+}
+
+
+
+input:hover{
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+
+}
+input::placeholder{
+    font-family:'Anaheim';
+    font-weight:500;
+    opacity:0.9;
+}
+.form-to-submit > div{
+    margin:30px 0;
+}
+.password input,.name-username input{
+    width:80%;
+    padding:10px 22px;
+    border:none;
+    background-color:rgb(230, 230, 230);
+    outline:none;
+    border-radius:4px;
+    font-family:'Athiti';
+    transition: .5s ease-in-out;
+}
+
+.password{
+    position:relative;
+}
+
+.create-account-button button{
+    padding:8px 17px;
+    cursor:pointer;
+    border:none;
+    background-color: #fcadc0;
+    font-family:'Roboto Slab';
+    font-weight:500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius:2px;
+    transition:.5s ease-in-out;
+}
+.create-account-button button:hover{
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 4px 6px rgba(0, 0, 0, 0.15);
+
+}
+
+#anchor{
+    color:#4870a4;
+    text-decoration-color:#333;
+}
+
+
+.container .form-container .right-side-container .introduction-container .text-part{
+    padding-left:20px;
+}
+
+.introduction-container .text-part h3{
+    color:black;
+    font-family:'Roboto Slab';
+    font-weight:1000;
+    letter-spacing:1px;
+    font-size:25px;
+    
+}
+
+.introduction-container .text-part p{
+    color:#333;
+    font-family:'Athiti';
+    font-weight:1000;
+    font-size:20px;
+}
+
+.right-side-container .image-container{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="left-side-container">
+                <div class="log-in-option">
+                    <span>Dont Have Account?</span>
+                    <button id='signUpButton' style='color:#7BA3D8;border:none;background-color:transparent;font-family:"Roboto Slab";font-weight:500;font-size:13px; cursor:pointer;'>Sign Up</button>
+                </div>
+
+                <div class="form-container-left-side">
+
+                    <h1>Sign In to Shopcart</h1>
+
+                    <div class="form-to-submit">
+                        <div class="name-username">
+                            <input type="text" placeholder='Username' id='username'>
+                        </div>
+
+                        
+
+                        <div class="password">
+                            <input type="password" placeholder='Password' id='password'>
+                           
+                        </div>
+
+                        <div class="agree-terms">
+                            <span id='myText' style='color:#333;font-family:"Anaheim"; font-size:15px;;'><a href="" id='anchor'>Sign In As Admin</a><span>
+                        </div>
+
+                        <div class="create-account-button">
+                            <button id="logInButton">Log In</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            <div class="right-side-container">
+
+                <div class="introduction-container">
+                    <div class="text-part">
+                        <h3>Shopcart</h3>
+                        <p>Discover The World Of<br>
+                        The Biggest Online Shop&<br>
+                        Community</p>
+                    </div>
+                </div>
+
+                <div class="image-container">
+
+                    <img src="../images/back-of.png" height='180' width='200'>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+      function transitionOnAppear(){
+        var form_container = document.querySelector('.form-container');
+        try{
+            window.addEventListener('DOMContentLoaded',()=>{
+                var previousPage = sessionStorage.getItem('previousPage');
+                if(previousPage){
+                    setTimeout(()=>{
+                        form_container.style.left = '50%';
+                    },100);
+                    this.sessionStorage.removeItem('previousPage');
+                }else{
+                    form_container.style.left = '50%';
+                    form_container.style.transition = '0s ease-in-out';
+                }
+            })
+        } catch(err){
+            console.error(err);
+        }
+    }
+
+    transitionOnAppear();
+
+
+    var buttoni = document.querySelector('#signUpButton');
+    buttoni.addEventListener('click',function(){
+        sessionStorage.setItem('previousPage',window.location.href);
+        window.location.href = 'signUp.html';
+
+    });
+
+
+
+
+
+
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+
+    async function logIn(){
+        const the_form_data = new FormData();
+
+        the_form_data.append('username',username.value);
+        the_form_data.append('password',password.value);
+
+        try{
+            const context = {
+                method:'POST',
+                headers:{
+                    'X-REQUESTED-WITH':'XMLHttpRequest'
+                },
+                body:the_form_data
+            }
+
+            const response = await fetch('logIn.php',context);
+
+            if(!response.ok){
+                throw new Error('Something Went Wrong!');
+            }
+
+            const answer = await response.json();
+
+            if(answer.success == 'Logged In'){
+                window.location.href = '../e-comm/home.php';
+            }
+
+            console.log(answer);
+
+        } catch(err){
+            console.error(err);
+        }
+    }
+
+    var logInButton = document.getElementById('logInButton');
+
+    logInButton.addEventListener('click',logIn);
+
+
+    function checkUserLogged(){
+        document.addEventListener('DOMContentLoaded',()=>{
+            fetch('validation.php').then(response=>{
+                return response.json();
+            }).then(answer=>{
+                if(answer.success){
+                    window.location.href = '../e-comm/home.php';
+                }
+            })
+        })
+    }
+
+    checkUserLogged();
+
+    
+</script>
+</html>
