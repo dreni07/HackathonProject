@@ -1,18 +1,28 @@
 <?php
-    function addingProduct(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])){
-            $get_the_base = 'product_images/';
-            $get_the_name = $_FILES['image']['name'];
-            $get_the_extension = pathinfo(basename($get_the_name),PATHINFO_EXTENSION);
-            $base_name = pathinfo(basename($get_the_name),PATHINFO_BASENAME);
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])){
+        $product_name = $_POST['product_name'];
+        $product_category = $_POST['product_category'];
+        $the_base_file = 'product_image/';
+        $the_image_name = $_FILES['image']['name'];
+        $the_file_extension = pathinfo(basename($the_image_name),PATHINFO_EXTENSION);
+        $the_base_name = pathinfo(basename($the_image_name),PATHINFO_BASENAME);
+        $full_file = $the_base_file . $the_base_name . '.' . $the_file_extension;
 
-            echo $get_the_extension;
-            echo $base_name;
-        }else{
-            echo 'No way';
+        if(!is_dir($the_base_file)){
+            mkdir($the_base_file,0777,true);
         }
+
+        while(file_exists($full_file)){
+            $full_file = $the_base_file . $the_base_name . '_' . $count . '.' . $the_file_extension;
+            $count++;
+        }
+
+        if(move_uploaded_file($_FILES['image']['tmp_name'],$full_file)){
+
+        }
+    }else{
+        echo json_encode(['success'=>'bad']);
     }
-    addingProduct();
 
 ?>
 
