@@ -65,3 +65,38 @@ async function chartsData(){
 }
 
 chartsData();
+
+
+async function makeRequestForProduct(){
+    try{
+        const response = await fetch('productSuggested.php');
+
+        if(!response.ok){
+            throw new Error('Something Went Wrong!');
+        }
+
+        const answer = await response.json();
+
+        var the_category_name = answer.category_name;
+
+        var AIresponse = askingAI(the_category_name);
+
+
+    } catch(err){
+        console.error(err);
+    }
+}
+
+makeRequestForProduct();
+
+
+function askingAI(category_name){
+    const apiUrl =   'uRrdZGbE8t8-mG-ts1zc-AT3WXM_N948_eH1puHhfMI';
+
+    fetch(`https://api.unsplash.com/photos/random?query=${category_name}&client_id=${apiUrl}`).then(response=>{
+        return response.json();
+    }).then(answer=>{
+        console.log(answer);
+    })
+    
+}
