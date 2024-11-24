@@ -9,6 +9,10 @@
     //     header('Location:../authentication/admin.html');
     // }
 
+    if(!(isset($_SESSION['adminId']))){
+        header('Location:../authentication/logInAdmin.html');
+    }
+
     if(isset($_SESSION['userId'])){
         header('Location:../e-comm/home.php');
     }
@@ -242,9 +246,36 @@ $profit_money = $total - $total_investment; // profit
 $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
 
 
+function seeNews($the_date){
+    try{
+        require '../authentication/db.inc.php';
 
+        $first_sql = 'SELECT * FROM news WHERE news_date >= :old_date;';
+        $the_sql = 'SELECT * FROM news;';
 
+        $final_query = $the_date ? $first_sql : $the_sql;
 
+        $preparing = $pdo->prepare($final_query);
+        
+        if($the_date){
+            $preparing->bindParam(':old_date',$the_date);
+        }
+
+        $preparing->execute();
+
+        $fetched_data = $preparing->fetchAll(PDO::FETCH_ASSOC);
+
+        if($fetched_data){
+            return $fetched_data;
+        }
+
+    } catch(PDOException $e){
+        die('Failed Because Of ' . $e->getMessage());
+    }
+
+}
+
+$website_news = seeNews($currDate) ? seeNews($currDate) : [];
 
     
     
@@ -808,6 +839,11 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
         }
 
 
+        a{
+            text-decoration:none;
+            color:#333;
+        }
+
        
 
 
@@ -834,6 +870,7 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
 
 
     <div class="container">
+
         <div class="nav-bar">
             <div class="profile-admin">
                 <p>Dreni<br><span>Welcome To Your Page!</span></p>
@@ -843,31 +880,27 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
                 <div class="nav-part">
                     <div class="navigation-div active">
                         <i class='material-icons icon'>home</i>
-                        <p>Home</p>
+                        <p><a href="adminPage.php">Home</a></p>
                     </div>
                 </div>
                 <div class="nav-part">
                     <div class="navigation-div">
                         <i class='material-icons icon'>add</i>
-                        <p>Add Product</p>
-                    </div>
-                </div>
-                <div class="nav-part">
-                    <div class="navigation-div">
-                        <i class='material-icons icon'>visibility</i>
-                        <p>See Orders</p>
+                        <p><a href="addProductUI.php">Add Product</a></p>
                     </div>
                 </div>
                 <div class="nav-part">
                     <div class="navigation-div">
                         <i class='material-icons icon'>pending</i>
-                        <p><a href="pendingOrders.php">Pending Orders</a></p>
+                        <p><a href="productsByAI.php">See AI Products</a></p>
                     </div>
                 </div>
              
                 
             </div>
         </div>
+
+
         <div class="container-page">
             <div class="container-content">
                 <div class="container-page-nav">
@@ -1334,6 +1367,141 @@ async function addingToDb(the_object_data){
         console.error(err);
     }
 }
+
+
+var add_news = document.getElementById('add_news');
+
+var the_default = document.querySelector('.default');
+
+add_news.onclick = function(){
+    the_default.style.display = 'flex';
+}
+
+
+var the_data_sent = {
+    image:'',
+    news_title:'',
+    news_description:''
+};
+
+    
+
+
+function gettingTheFile(){
+        var add_image = document.getElementById('add-image');
+        add_image.onchange = function(event){
+            var image_name = event.target.files[0];
+            var dashboard_news_div = document.querySelector('.dashboard-news-div');
+            var drag_drop = document.querySelector('.drag-drop');
+            var add_image = document.querySelector('label');
+            if(image_name){
+                the_data_sent.image = image_name;
+                const reader = new FileReader();
+                reader.onload = function(e){
+                    var new_image_element = document.createElement('img');
+                    new_image_element.className = 'news-image';
+                    new_image_element.src = e.target.result;
+                    drag_drop.append(new_image_element);
+                    add_image.style.display = 'None';
+                    drag_drop.style.border = 'none';
+                }
+
+                reader.readAsDataURL(image_name);
+            }
+
+        }
+
+
+        
+}
+    
+gettingTheFile();
+
+function gettingUserInput(){
+    var title = document.getElementById('title').value ? document.getElementById('title').value : '';
+    var desc = document.getElementById('desc').value ? document.getElementById('desc').value : '';
+
+    return [title,desc];
+}
+
+
+
+
+async function addNews(){
+
+// kit funksionalitet duhem me ja jep submit button
+// edhe buttonit momental qe e ka kit funksionalitet
+// mduhet me ja bo veq me bo display card-n nfillim 
+    var sent_data = document.getElementById('sent_data');
+        sent_data.addEventListener('click',function(){
+
+            var [title,desc] = gettingUserInput();
+
+            if(title && desc){
+                the_data_sent.news_title = title;
+                the_data_sent.news_description = desc;
+            }
+
+            if(the_data_sent.news_title && the_data_sent.image && the_data_sent.news_description){
+                // make a request to send to the back end the data
+                const the_form_data = new FormData();
+
+                the_form_data.append('image_file',the_data_sent.image);
+                the_form_data.append('news_title',the_data_sent.news_title);
+                the_form_data.append('news_description',the_data_sent.news_description);
+
+                let the_context = {
+                    method:'POST',
+                    headers:{
+                        'X-REQUESTED-WITH':'XMLHttpRequest'
+                    },
+                    body:the_form_data
+                }
+
+                fetch('addNews.php',the_context).then(response=>{
+                    return response.text();
+                }).then(answer=>{
+                    console.log(answer);
+                })
+
+                // clean up the data
+                the_data_sent.news_title = '';
+                the_data_sent.image = '';
+                the_data_sent.news_description = '';
+
+                the_default.style.display = 'none';
+            }
+
+
+
+        })
+
+}
+
+addNews();
+
+
+
+async function getNews(){
+        try{
+            const response = await fetch('seeNews.php');
+
+            if(!response.ok){
+                throw new Error('Something Went Wrong!');
+            }
+
+            const answer = await response.json();
+
+            console.log(answer);
+
+        } catch(err){
+            console.error(err);
+        }
+    }
+
+getNews();
+
+
 
 
 

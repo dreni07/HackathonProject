@@ -115,6 +115,9 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
 
 
 
+function isValidUrl($url) {
+    return filter_var($url, FILTER_VALIDATE_URL) !== false;
+}
 
 
 
@@ -802,7 +805,11 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
                 </div>
                 <div class="product-details">
                     <div class="product-details-image">
-                        <img src="../../admin/product_image/<?php echo htmlspecialchars($the_products['product_image'])?>" height='250' width='300'/>
+                        <?php if (isValidUrl($the_products['product_image'])): ?>
+                            <img src="<?php echo htmlspecialchars($the_products['product_image']) ?>" height='250' width='300'>
+                        <?php else: ?>
+                            <img src="../../admin/product_image/<?php echo htmlspecialchars($the_products['product_image'])?>" height='250' width='300'/>
+                        <?php endif; ?>
                     </div>
                     <div class="product-details-text">
                         <div class="all-details">

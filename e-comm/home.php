@@ -8,6 +8,8 @@ if(!(isset($_SESSION['userId']))){
 }
 
 
+
+
 function getCategories(){
     try{    
         require '../authentication/db.inc.php';

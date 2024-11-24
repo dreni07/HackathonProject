@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim|Roboto Slab|Athiti|Cabin Condensed|Lora|Montserrat|Merriweather|Brusher|Pacifico">
+
+<style>
+
+    body{
+        margin:0;
+        padding:0;
+        overflow:hidden;
+        background-color:#bed1b7;
+    }
+
+
+    .container{
+        height:100vh;
+        width:100%;
+        display:grid;
+        place-items:center;
+    }
+    .container .container-form{
+        height:450px;
+        width:600px;
+        background-color:white;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.19);
+        border-radius:12px;
+    }
+    .container-form h1{
+        text-align:center;
+        font-family:'Athiti';
+        font-weight:1000;
+        letter-spacing:1px;
+
+    }
+
+    .container-form .first-part-form{
+        height:300px;
+        width:100%;
+        display:flex;
+        justify-content:center;
+        align-items:start;
+    }
+    .form-inputs div{
+        margin:20px 0;
+    }
+    .form-inputs div:not(.button-input){
+        margin:20px 0;
+        display:flex;
+        flex-direction: column;
+    }
+    .form-inputs div label{
+        padding-bottom:10px;
+        font-family:'Athiti';
+        font-weight:1000;
+
+    }
+    .form-inputs div input{
+        padding:12px 22px;
+        width:200px;
+        outline:none;
+        background-color:#eef0ed;
+        border:1px solid rgba(255, 255, 255, 0.591);
+        font-family:'Roboto Slab';
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.19);
+        border-radius:4px;
+
+    }
+    .form-inputs div input::placeholder{
+        font-family:'Anaheim';
+        opacity:0.8;
+        font-weight:1000;
+    }
+    .forgot-password{
+        width:100%;
+        position:relative;
+    }
+    .forgot-password a{
+        width:fit-content;
+        text-decoration:underline;
+        text-decoration-color:#333;
+        color:#333;
+        font-family:'Athiti';
+        font-weight:1000;
+        opacity:0.8;
+        position:absolute;
+        left:50%;
+        transform:translateX(-50%);
+    }
+    .tooltip-information{
+        position:absolute;
+        right:-30%;
+        top:50%;
+        transform:translateY(-50%);
+        height:80px;
+        width:120px;
+        background-color:#333;
+        border-radius:10px;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2), 0 3px 10px rgba(0, 0, 0, 0.19);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        opacity:0;
+        transition:.5s ease-in-out;
+    }
+    .tooltip-information p{
+        color:white;
+        font-size:10px;
+        font-family:'Anaheim';
+        margin:0 5px;
+    }
+    .forgot-password:hover .tooltip-information{
+        opacity:1;
+    }
+    .tooltip-information::before{
+        content:'';
+        position:absolute;
+        border-right:6px solid #333;
+        border-top:5px solid transparent;
+        border-bottom:5px solid transparent;
+        border-left:5px solid transparent;
+        height:0;
+        width:0;
+        top:50%;
+        left:0;
+        transform:translate(-100%,-50%);
+    }
+    .button-input{
+        width:100%;
+        display:flex;
+        justify-content:center;
+    }
+    .button-input button{
+        margin-top:20px;
+        padding:10px 22px;
+        border:none;
+        cursor:pointer;
+        background-color:#B89FC1;
+        border-radius:2px;
+        color:white;
+        font-family:'Roboto Slab';
+        font-weight:1000;
+        transition:.5s ease-in-out;
+    }
+    .button-input button:hover{
+        background-color:#9777a3;
+        box-shadow:0 6px 12px rgba(0, 0, 0, 0.2), 0 6px 30px rgba(0, 0, 0, 0.19);
+
+    }
+   
+
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="container-form">
+            <h1>Welcome Back</h1>
+           
+            <div class="first-part-form">
+                <div class="form-inputs">
+                    <div class="username-input">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder='username'>
+                    </div>
+                    <div class="password-input">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="password">
+                    </div>
+                    <div class="forgot-password">
+                        <a href="">Forgot Password?</a>
+                        <div class="tooltip-information">
+                            <p>If You Forgot The Password<br>
+                            You Need To Know The Token!</p>
+                        </div>
+                    </div>
+                    <div class="button-input">
+                        <button id="logInButton">Log In</button>
+                    </div>
+                    <div class="validation-element"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    async function sentDataForLogIn(){
+        var the_error;
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        if(username && password){
+            var the_form_data = new FormData();
+
+            the_form_data.append('username',username);
+            the_form_data.append('password',password);
+
+
+            var the_context = {
+                method:'POST',
+                body:the_form_data
+            }
+
+
+            try{
+                const response = await fetch('logInAsAdmin.php',the_context);
+                const answer = await response.json();
+
+                // check for response errors
+                // in the back end
+                if(!response.ok){
+                    throw new Error('Something Not Working Properly');
+                }
+
+                // if answer is true means the data was verified 
+                // else display an message
+                console.log(answer);
+                if(answer.success == true){
+                    window.location.href = '../admin/adminPage.php';
+                }else{
+                    the_error = 'Invalid Credentinals';
+                }
+
+            } catch(err){
+                console.error(err);
+            }
+        }else{
+            the_error = 'Enter Some Data';
+        }
+
+        if(the_error){
+            var validation_element = document.querySelector('.validation-element');
+            validation_element.classList.add('active-validation');
+            validation_element.innerHTML = the_error;
+        }
+
+    }
+
+    var logInButton = document.getElementById('logInButton');
+
+    logInButton.addEventListener('click',sentDataForLogIn);
+</script>
+</html>
