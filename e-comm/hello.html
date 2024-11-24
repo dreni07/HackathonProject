@@ -8,5 +8,23 @@
 <body>
     
 </body>
-<script src="hello.js"></script>
+<script>
+    const apiUrl =   'uRrdZGbE8t8-mG-ts1zc-AT3WXM_N948_eH1puHhfMI';
+
+    fetch(`https://api.unsplash.com/photos/random?query=health&client_id=${apiUrl}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        var the_image_url = data.urls.raw;
+        var new_image = document.createElement('img');
+        new_image.src = the_image_url;
+        new_image.width = 500;
+        new_image.height = 300;
+
+        document.body.append(new_image);
+    })
+    .catch(error => console.error('Error:', error));
+
+    // const my_end_point = https://api.pexels.com/v1/
+</script>
 </html>

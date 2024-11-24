@@ -9,7 +9,7 @@ function the_pagination(){
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $off_set = ($page - 1) * $limit;
 
-        $the_sql_query = "SELECT * FROM products LIMIT $limit OFFSET $off_set;";
+        $the_sql_query = "SELECT * FROM  products LIMIT $limit OFFSET $off_set;";
         $preparing = $pdo->prepare($the_sql_query);
         $preparing->execute();
 
@@ -18,12 +18,12 @@ function the_pagination(){
 
 
 
-        $sql_query = 'SELECT COUNT(*) AS total FROM products;';
+        $sql_query = 'SELECT COUNT(*) AS Total FROM products;';
         $preparing_count = $pdo->prepare($sql_query);
         $preparing_count->execute();
 
-        $fetched = $preparing_count->fetch(PDO::FETCH_ASSOC)['Total'];
-        $total_pages = ceil($fetched/$limit);
+        $fetched_number = $preparing_count->fetch(PDO::FETCH_ASSOC)['Total'];
+        $total_pages = ceil($fetched_number/$limit);
 
         $the_json_ready = [
             'the_data'=>$fetched,
