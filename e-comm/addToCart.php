@@ -354,36 +354,6 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
             font-weight:1000;
         }
 
-
-        .search-bar{
-            display:flex;
-            justify-content: center;
-            align-items:center;
-        }
-        .search-bar .search{
-            margin-top:30px;
-        }
-        .search,.search input{
-            width:100%;
-            
-        }
-
-        .search input{
-            border:none;
-            border-radius:14px;
-            padding:8px 16px;
-            outline:none;
-            background-color:rgb(240, 240, 240);
-            font-family:'Roboto Slab';
-
-        }
-
-        .search input::placeholder{
-            color:#333;
-            font-family:'Anaheim';
-            font-weight:500;
-        }
-
         .cart-account{
             display:flex;
             justify-content:center;
@@ -401,6 +371,14 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
 
         .cart-account > div > div:nth-child(2){
             padding-top:10px;
+        }
+        .cart-account > div > div > button{
+            color:#333;
+            font-family:'Roboto Slab';
+            font-weight:500;
+            background:transparent;
+            border:none;
+            font-size:18px;
         }
         .cart-account > div > div > span{
             color:#333;
@@ -749,7 +727,7 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
     
     <div class="upper-nav">
             <div class="phone-part">
-                <p><img src="../website_images/phone-logo.png" height='10' width='10'>045441654</p>
+                <p><img src="../../website_images/phone-logo.png" height='10' width='10'>045441654</p>
             </div>
             <div class="free-part">
                 <span>Get 50% Off On Selected Items</span>
@@ -781,10 +759,10 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
     <div class="under-nav">
             <div class="logo-categories">
                 <div class="logo">
-                    <h1 style='padding-left:10px;'><img src="../website_images/shop-logo.png" height='40' width='40' style='position:relative; top:10px; padding-right:10px;'>Shopcart</h1>
+                    <h1 style='padding-left:10px;'><img src="../../website_images/shop-logo.png" height='40' width='40' style='position:relative; top:10px; padding-right:10px;'>Shopcart</h1>
                 </div>
                 <div class="categories">
-                    <h2>Categories <img src="../images/down-arrow.png" height='15' width='15' style='position:relative;top:5px;'></h2>
+                    <h2>Categories <img src="../../images/down-arrow.png" height='15' width='15' style='position:relative;top:5px;'></h2>
                     <div class="dropdown-categories">
                         <?php foreach($all_categories as $category): ?>
                             <div><p><?php echo htmlspecialchars($category['category_name'])?></p>
@@ -797,20 +775,19 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
             </div>
 
             <div class="search-bar">
-                <div class="search">
-                    <input type="text" placeholder='Search...'>
-                </div>
+                <!-- <button id='goToCartButton'><a href="cart.php">See Cart</a></button> -->
+                
             </div>
 
             <div class="cart-account">
                 <div class="cart-inside-account">
                     <div class="cart">
-                        <img src="../website_images/cart-img.png" height='30' width='30'>
+                        <img src="../../website_images/cart-img.png" height='30' width='30'>
                         <!-- <img src="../website_images/cart-img.png" height='30' width='30' style='position:relative; top:10px;'> -->
-                        <span>Cart</span>
+                        <button id='seeCart'>Cart</button>
                     </div>
                     <div class="acc">
-                        <img src="../website_images/log-out.png" height='20' width='20' style='position:relative; top:5px;'>
+                        <img src="../../website_images/log-out.png" height='20' width='20' style='position:relative; top:5px;'>
                         <span><a href="../authentication/logOut.php">Log Out</a></span>
                     </div>
                 </div>
@@ -821,11 +798,11 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
             <div class="container-product-title">
                 <div class="container-categories">
                     <span><?php print_r($the_products['product_name'])?></span>
-                    <span>/<?php print_r($the_products['category_name'])?></span>
+                    <span><?php print_r($the_products['category_name'])?></span>
                 </div>
                 <div class="product-details">
                     <div class="product-details-image">
-                        <img src="../admin/product_image/<?php echo htmlspecialchars($the_products['product_image'])?>" height='250' width='300'/>
+                        <img src="../../admin/product_image/<?php echo htmlspecialchars($the_products['product_image'])?>" height='250' width='300'/>
                     </div>
                     <div class="product-details-text">
                         <div class="all-details">
@@ -863,7 +840,7 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
                             <div class="delivery-description">
                                 <div class="cart-delivery-one">
                                     <div class="image-into" style='display:flex; align-items:center;'>
-                                        <img src="../website_images/delivery-icon.png" height='30' width='30'>
+                                        <img src="../../website_images/delivery-icon.png" height='30' width='30'>
                                         <span>Free Delivery For Everyone</span>
                                     </div>
                                     <div class="description-details" style='display:flex; align-items:center;'>
@@ -976,8 +953,8 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
             return response.json();
         }).then(answer=>{
             var the_similar_products = answer.data;
-            console.log(the_similar_products);
             if(Array.isArray(the_similar_products)){
+                console.log(answer);
                 var similarProductsButton = document.getElementById('similarProductsButton');
                 similarProductsButton.addEventListener('click',()=>{
                     displayingProducts(the_similar_products);
@@ -1001,7 +978,7 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
                     var div_element = document.createElement('div');
                     var child_image_div_element = document.createElement('div');
                     var image = document.createElement('img');
-                    image.src = `../admin/product_image/${Products[j].product_image}`;
+                    image.src = `../../admin/product_image/${Products[j].product_image}`;
                     console.log(image);
                     var data_quantity_child_div = document.createElement('div');
 
@@ -1036,6 +1013,17 @@ $the_product_id_category = $the_products['product_category']; # this gets the pr
 
         return creating;
     }
+
+
+    var goToCartButton = document.getElementById('seeCart');
+
+    goToCartButton.addEventListener('click',function(){
+        alert('Hello World!');
+
+        console.log('HEE')
+        
+        window.location.href = "http://localhost/hackathonproject/e-comm/cart.php"
+    })
 
 
 </script>

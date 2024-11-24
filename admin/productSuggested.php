@@ -169,7 +169,7 @@ $the_interactions = getFromTempInteractions();
 $index = count($the_interactions) - 1;
 
 if($the_category_data){
-    echo json_encode(['success'=>true,'category_name'=>$the_category_data['category_name'],'last_inserted_id'=>$the_interactions[$index]['tmp_product_id']]);
+    echo json_encode(['success'=>true,'category_name'=>$the_category_data['category_name'],'last_inserted_id'=>$the_interactions[$index]['tmp_product_id'],'category_id'=>$the_category_data['category_id']]);
 }else{
     echo json_encode(['success'=>'Something Went Wrong']);
 }

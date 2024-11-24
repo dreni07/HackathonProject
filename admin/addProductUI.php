@@ -1,87 +1,42 @@
-<?php 
+<?php
+if(isset($_SESSION['userId'])){
+    header('Location:../e-comm/home.php');
+}
 
-    include_once('../authentication/sessions.inc.php');
-
-    // require 'productSuggested.php';
 
 
-    // if($_SERVER['REQUEST_METHOD'] == 'GET' && empty($_SESSION['adminId'])){
-    //     header('Location:../authentication/admin.html');
-    // }
+function all_categories(){
+    try{
+        require '../authentication/db.inc.php';
 
-    if(isset($_SESSION['userId'])){
-        header('Location:../e-comm/home.php');
+        $the_sql_query = 'SELECT * FROM categories;';
+        $the_preparment = $pdo->prepare($the_sql_query);
+        $the_preparment->execute();
+
+        $fetched_data = $the_preparment->fetchAll(PDO::FETCH_ASSOC);
+    } catch(PDOException $e){
+        die('Failed Because Of ' . $e->getMessage());
     }
 
-    
 
-    function all_categories(){
-        try{
-            require '../authentication/db.inc.php';
-
-            $the_sql_query = 'SELECT * FROM categories;';
-            $the_preparment = $pdo->prepare($the_sql_query);
-            $the_preparment->execute();
-
-            $fetched_data = $the_preparment->fetchAll(PDO::FETCH_ASSOC);
-        } catch(PDOException $e){
-            die('Failed Because Of ' . $e->getMessage());
-        }
-
-
-        if($fetched_data){
-            return $fetched_data;
-        }
+    if($fetched_data){
+        return $fetched_data;
     }
+}
 
 $the_categories = all_categories() ? all_categories() : [];
 
 
 class gettingDate{
-    public static function currDate(){
-        $current_date = new DateTime();
-        $the_formated = $current_date->format('Y-m-d');
-        return $the_formated;
-    }
+public static function currDate(){
+    $current_date = new DateTime();
+    $the_formated = $current_date->format('Y-m-d');
+    return $the_formated;
+}
 }
 
 $new_instance = new gettingDate();
 $currDate = $new_instance->currDate();
-
-
-
-
-// function seeNews($the_date){
-//     try{
-//         require '../authentication/db.inc.php';
-
-//         $first_sql = 'SELECT * FROM news WHERE news_date >= :old_date;';
-//         $the_sql = 'SELECT * FROM news;';
-
-//         $final_query = $the_date ? $first_sql : $the_sql;
-
-//         $preparing = $pdo->prepare($final_query);
-        
-//         if($the_date){
-//             $preparing->bindParam(':old_date',$the_date);
-//         }
-
-//         $preparing->execute();
-
-//         $fetched_data = $preparing->fetchAll(PDO::FETCH_ASSOC);
-
-//         if($fetched_data){
-//             return $fetched_data;
-//         }
-
-//     } catch(PDOException $e){
-//         die('Failed Because Of ' . $e->getMessage());
-//     }
-
-// }
-
-// $website_news = seeNews($currDate) ? seeNews($currDate) : [];
-
 
 
 function gettingTotalOrders(){
@@ -110,7 +65,6 @@ function gettingTotalOrders(){
 
 $numberOfTotalOrders = gettingTotalOrders() ? gettingTotalOrders()['COUNT(*)'] : 'No Orders';
 
-// $the_username = $_SESSION['admin_username'];
 
 
 function getCurrentDate(){
@@ -245,9 +199,6 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
 
 
 
-
-    
-    
 ?>
 
 
@@ -257,11 +208,10 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim|Roboto Slab|Athiti|Cabin Condensed|Lora|Montserrat|Merriweather|Brusher|Pacifico">
-
 
     <style>
         body{
@@ -353,90 +303,10 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
             white-space:nowrap;
         }
 
-        .container-page{
-            width:100%;
-            height:100%;
-            display:flex;
-            justify-content:center;
-        }
 
-        .container-page .container-content{
-            width:90%;
-            height:100%;
-        }
 
-        .container-page .container-content .container-page-nav{
-            display:flex;
-            justify-content:space-between;
-        }
 
-        .container-page .container-content .container-page-nav .searchbar{
-            display:flex;
-            align-items:center;
-            position:relative;
-        }
 
-        .searchbar img{
-            cursor:pointer;
-        }
-
-        .searchbar .tooltip{
-            height:70px;
-            width:120px;
-            background-color:#f9dbe0;
-            font-family:'Athiti';
-            font-weight:1000;
-            font-size:14px;
-            border-radius:12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
-            position:absolute;
-            top:80%;
-            left:50%;
-            transform:translateX(-50%);
-            opacity:0;
-            transition:.5s ease-in-out;
-            display:flex;
-            align-items:center;
-            text-align:center;
-        
-        }
-
-        .searchbar .tooltip::before{
-            content:'';
-            position:absolute;
-            top:0;
-            left:50%;
-            transform:translate(-50%,-100%);
-            height:0;
-            width:0;
-            border-left:7px solid transparent;
-            border-right:7px solid transparent;
-            border-bottom:8px solid #f9dbe0;
-            border-top:7px solid transparent;
-        }
-
-        .searchbar:hover .tooltip{
-            opacity:1;
-        }
-
-        .searchbar .order-notf{
-            position:absolute;
-            top:20%;
-            right:0;
-            color:white;
-            font-size:13px;
-            height:20px;
-            width:20px;
-            border-radius:50%;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            transform:scale(1.03);
-        }
-
-        .another_back{
-            background-color:rgb(253, 84, 84);
-        }
 
         .container-page .container-content .container-page-nav .title h1{
             color:#333;
@@ -808,31 +678,13 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
         }
 
 
-       
-
-
-
-
-
-
 
     </style>
 
 
+
 </head>
 <body>
-
-    <div class="notification-added">
-        <div class="text">
-            <p>AI just Added A Product To The Database!</p>
-        </div>
-        <div class="button">
-            <button id='okBtn'>Ok</button>
-        </div>
-    </div>
-
-
-
     <div class="container">
         <div class="nav-bar">
             <div class="profile-admin">
@@ -868,6 +720,9 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
                 
             </div>
         </div>
+
+
+
         <div class="container-page">
             <div class="container-content">
                 <div class="container-page-nav">
@@ -989,354 +844,5 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
            
         </div>
     </div>
-
-    
-
-
-
 </body>
-<!-- <script src='adminPage.js'></script> -->
-<script>
-    // function addingProduct(){
-    //     var getting_image = null;
-
-    //     var image = document.getElementById('image_file');
-    //     var product_price = document.getElementById('product_price');
-    //     var productName = document.getElementById('productName');
-    //     var productCategory = document.getElementById('category');
-    //     var product_in_stock = document.getElementById('product_in_stock');
-
-    //     image.onchange = function(event){
-    //         getting_image = event.target.files[0];
-    //         console.log('hello')
-    //         console.log(getting_image);
-    //     }
-
-
-    //     var the_product_data = {
-    //         product_name:'',
-    //         product_image:'',
-    //         product_price:'',
-    //         product_category:''
-    //     }
-
-    //     var the_product = document.getElementById('addProduct');
-
-    //     the_product.addEventListener('click',function(){
-    //         const the_form_data = new FormData();
-    //         if(getting_image){
-
-    //             the_form_data.append('image',getting_image);
-    //             the_form_data.append('product_name',productName.value);
-    //             the_form_data.append('product_category',productCategory.value);
-    //             the_form_data.append('product_price',product_price.value);
-    //             the_form_data.append('product_in_stock',product_in_stock.value);
-    //             console.log('hello')
-
-    //             var the_context = {
-    //                 method:'POST',
-    //                 headers:{
-    //                     'X-REQUESTED-WITH':'XMLHttpRequest'
-    //                 },
-    //                 body:the_form_data
-    //             };
-
-    //             fetch('addProduct.php',the_context).then(response=>{
-    //                 return response.text();
-    //             }).then(answer=>{
-    //                 console.log(answer);
-    //             })
-    //         }
-    //     })
-    // }
-    // addingProduct();
-
-    var money = document.querySelector('.money');
-    var percentage = document.querySelector('.percentage');
-    function changing(){
-        money.onclick = function(){
-            money.style.display = 'none';
-            percentage.style.display = 'block';
-            percentage.onclick = function(){
-                money.style.display = 'block';
-                percentage.style.display = 'none';
-                changing();
-            }
-        }
-    }
-
-    changing();
-
-
-
-async function chartsData(){
-    try{
-        const context = {
-            method:'GET',
-            headers:{
-                'X-Requested-With':'XMLHttpRequest'
-            }
-        }
-
-        const response = await fetch('getSales.php',context);
-
-        if(!response.ok){
-            throw new Error('Something Went Wrong!');
-        }
-
-        const answer = await response.json();
-
-        let the_data = answer.data;
-
-        const the_days = Object.keys(the_data);
-        const the_orders = Object.values(the_data);
-
-        const canvas_element = document.getElementById('my_canvas').getContext('2d');
-
-        const the_chart = new Chart(canvas_element,{
-            type:'line',
-            data:{
-                labels:the_days,
-                datasets:[{
-                    label:'Orders:',
-                    data:the_orders,
-                    borderColor:'#a4b4f7',
-                    tension:0.1,
-                    lineTension:0.2,
-                    pointRadius:3,
-                    pointBackgroundColor:'#F7E7A4',
-                    pointHoverRadius:7,
-
-                }]
-            },
-            options:{
-                scales:{
-                    y:{
-                        beginAtZero:true,
-                        grid:{
-                            borderColor:'#333',
-                            borderWidth:1,
-                            color:'rgb(225, 225, 225)'
-                        }
-                    },
-                    x:{
-                        beginAtZero:true,
-                        grid:{
-                            borderColor:'#333',
-                            borderWidth:5,
-                            color:'rgb(225, 225, 225)'
-                        }
-                    }
-                }
-            }
-        })
-    } catch(err){
-        console.error(err);
-    }
-}
-
-chartsData();
-
-
-async function makeRequestForProduct(){
-    try{
-        const response = await fetch('productSuggested.php');
-
-        if(!response.ok){
-            throw new Error('Something Went Wrong!');
-        }
-
-        const answer = await response.json();
-
-        console.log(answer);
-
-
-        var the_category_name = answer.category_name;
-        var the_category_id = answer.category_id;
-
-
-        var getting = localStorage.getItem('last_interaction_id') ? localStorage.getItem('last_interaction_id') : null;
-
-        if(!getting){
-            var new_local_storage = localStorage.setItem('last_interaction_id',answer.last_inserted_id);
-        }else{
-            getting = parseInt(getting);
-
-            var the_data_for_product_added = {
-                product_category:the_category_id,
-                product_name:'',
-                product_image:'',
-                product_price:'',
-                product_in_stock:'',
-                product_description:'',
-                added_by_ai:'Yes'
-            };
-
-            if((getting + 4) <= answer.last_inserted_id){
-
-                console.log(getting,'GETTINGGGG');
-                console.log(answer.last_inserted_id,'LASSTTT ONEEE');
-
-                localStorage.removeItem('last_interaction_id');
-                localStorage.setItem('last_interaction_id',answer.last_inserted_id);
-
-                var chatAIResponse = chatAI(the_category_name);
-
-                
-                var the_image = askingAI(the_category_name);
-
-
-                
-                Promise.all([chatAIResponse, the_image]).then((responses) => {
-                // Destructure the responses
-                    var answerFromAI = responses[0].response; // chatAI response
-                    var answerFromImage = responses[1];
-                    
-                    console.log(answerFromImage)// askingAI response
-
-                    // Process chatAI response
-                    var the_response = answerFromAI.split('*');
-                    var the_product_name = the_response[0];
-                    var the_product_price = the_response[1];
-                    var the_product_description = the_response[2];
-                    var the_product_in_stock = 10; // Assuming a fixed stock for now
-
-                    // Update the_data_for_product_added
-                    the_data_for_product_added.product_name = the_product_name;
-                    the_data_for_product_added.product_price = the_product_price;
-                    the_data_for_product_added.product_in_stock = the_product_in_stock;
-                    the_data_for_product_added.product_description = the_product_description;
-
-                    // Update the image URL
-                    var the_url = answerFromImage.urls.raw;
-                    the_data_for_product_added.product_image = the_url;
-
-                    var notification_added = document.querySelector('.notification-added');
-
-                    notification_added.style.height = '100px';
-
-                    document.getElementById('okBtn').addEventListener('click',()=>{
-                        notification_added.style.height = '0px';
-                    })
-
-                    // Now that both promises are resolved, add the data to the database
-                    addingToDb(the_data_for_product_added);
-
-                    // Log the final object to check if it's properly populated
-                    console.log(the_data_for_product_added);
-                }).catch((error) => {
-                    console.error('Error processing AI responses:', error);
-                });
-
-
-
-            }else{
-
-                console.log(getting);
-                console.log(answer.last_inserted_id);
-            }
-        }
-
-        
-
-
-
-
-    } catch(err){
-        console.error(err);
-    }
-}
-
-
-console.log(localStorage.getItem('last_interaction_id'));
-
-makeRequestForProduct();
-
-
-async function askingAI(category_name){
-    const apiUrl = 'uRrdZGbE8t8-mG-ts1zc-AT3WXM_N948_eH1puHhfMI';
-
-    try{
-        const response = await fetch(`https://api.unsplash.com/photos/random?query=${category_name}&client_id=${apiUrl}`)
-
-        if(!response.ok){
-            throw new Error('Something Went Wrong!');
-        }
-
-        const answer = await response.json();
-
-        return answer;
-    } catch(err){
-        console.error(err);
-    }
-
-    
-}
-
-
-
-async function chatAI(the_category_name){
-    const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
-    const options = {
-        method: 'POST',
-        headers: {
-            'x-rapidapi-key': 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de',
-            'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify({
-            query: `Give Me A Product About this category ${the_category_name} ONLY THE PRODUCT NAME AND GIVE ME PRODUCT PRICE PRODUCT DESCRIPTION ALL SEPERATED BY * AND DONT GIVE LABELS JUST VALUES AND WHEN YOU GENERATE THE PRICE GENERATE IT WITHOUT THE DOLLAR SIGN JUST THE NUMBER;`
-        }) 
-    };
-
-    try {
-        const response = await fetch(url, options);
-        const result = await response.json();
-        console.log(result);
-        return result;
-
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-
-async function addingToDb(the_object_data){
-    console.log(the_object_data);
-    const the_data = new FormData();
-
-    the_data.append('product_name',the_object_data.product_name);
-    the_data.append('product_price',the_object_data.product_price);
-    the_data.append('product_in_stock',the_object_data.product_in_stock);
-
-    the_data.append('product_description',the_object_data.product_description);
-    the_data.append('product_image',the_object_data.product_image);
-    the_data.append('product_category',the_object_data.product_category);
-
-    the_data.append('added_by_ai',the_object_data.added_by_ai);
-
-
-    for(let [key,value] of the_data.entries()){
-        console.log(key,value);
-    }
-
-    try{
-        const options = {
-            method:'POST',
-            body:the_data
-        };
-
-        const response = await fetch('addByAI.php',options);
-        const answer = await response.json();
-
-        console.log(answer);
-    } catch(err){
-        console.error(err);
-    }
-}
-
-
-
-    
-</script>
 </html>

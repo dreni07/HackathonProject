@@ -76,7 +76,10 @@ confirmOrderButton.addEventListener('click',async function(){
             if(!response.ok){
                 throw new Error('Something Went Wrong');
             }
-            const answer = await response.json();
+            
+            const answer = await response.text();
+
+            console.log(answer);
 
             if(answer.success == true){
                 alert('Order Completed!');

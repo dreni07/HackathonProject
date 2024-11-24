@@ -1474,7 +1474,7 @@ footer .first-part-content > div{
                 <div class="cart-inside-account">
                     <div class="cart">
                         <img src="../website_images/cart-img.png" height='30' width='30' style='position:relative; top:10px;'>
-                        <span>Cart</span>
+                        <span><a href='./cart.php'>Cart</a></span>
                     </div>
                     <div class="acc">
                         <img src="../website_images/log-out.png" height='20' width='20' style='position:relative; top:5px;'>
@@ -2131,7 +2131,18 @@ function toDisplayAll(the_parent,the_data){
             image.style.height = '170px';
             image.style.width = '200px';
 
-            image.src = `../admin/product_image/${d.product_image}`;
+
+            function isURL(str) {
+                // Simple check to see if the string starts with 'http://' or 'https://'
+                return /^https?:\/\//.test(str);
+            }
+
+            if(isURL(d.product_image)){
+                image.src = d.product_image;
+            }else{
+                image.src = `../admin/product_image/${d.product_image}`;
+            }
+            
             image_div.append(image);
             image_div.append(alert_div);
 

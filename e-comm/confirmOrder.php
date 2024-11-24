@@ -1,4 +1,5 @@
 <?php
+require '../authentication/sessions.inc.php';
 
 function changingOrderStatus($the_order_id){
     try{
@@ -26,13 +27,21 @@ function changingOrderStatus($the_order_id){
 }
 
 function confirmOrder(){
+    $fetched = null;
     try{
         $message_wrong = False;
-        require '../authentication/sessions.inc.php';
         require '../authentication/db.inc.php';
+        // require '../authentication/sessions.inc.php';
+
         $the_order_completion = 'PENDING';
         $the_user_id = $_SESSION['userId'];
-        $the_sql_statment = 'SELECT orders.order_quantity,orders.order_id,products.product_in_stock,products.product_id FROM orders INNER JOIN products ON orders.id_product = products.product_id WHERE id_user = :id_user AND order_completion = :order_completion;';
+
+
+        $the_sql_statment = 'SELECT orders.order_quantity,orders.order_id,products.product_in_stock,products.product_id FROM orders
+        INNER JOIN products ON orders.id_product = products.product_id
+        WHERE id_user = :id_user 
+        AND order_completion = :order_completion;';
+
         $the_sql_prepare = $pdo->prepare($the_sql_statment);
         $the_sql_prepare->bindParam(':order_completion',$the_order_completion);
         $the_sql_prepare->bindParam(':id_user',$the_user_id);
@@ -62,7 +71,7 @@ function confirmOrder(){
         return False;
     }else{
         $deleting_card = deleteCurrentCart($the_user_id);
-        return True;
+        return $fetched;
     }
 }
 
@@ -120,7 +129,7 @@ function oldProductInStock($product_id){
 function deleteCurrentCart($the_user_id){
     try{
         require '../authentication/db.inc.php';
-        $the_sql_query = 'DELETE cart FROM cart INNER JOIN orders ON cart.order_id = orders.order_id WHERE orders.id_user = :user_id;';
+        $the_sql_query = 'DELETE cart FROM cart INNER JOIN orders ON cart.id_order = orders.order_id WHERE orders.id_user = :user_id;';
         $preparment = $pdo->prepare($the_sql_query);
         $preparment->bindParam(':user_id',$the_user_id);
         $preparment->execute();
@@ -132,9 +141,42 @@ function deleteCurrentCart($the_user_id){
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $the_val = confirmOrder();
     if($the_val){
+        $the_product_interacted = $the_val;
+
+        foreach($the_product_interacted as $product_ordered){
+            $the_product_id = $product_ordered['product_id'];
+            $the_user_id = $_SESSION['userId'];
+
+            addToInteractions($the_product_id,$the_user_id);
+        }
+
         echo json_encode(['success'=>True]);
     }else{
         echo json_encode(['success'=>False]);
+    }
+}
+
+function addToInteractions($the_product_interacted,$the_user_id){
+    try{
+
+        require '../authentication/db.inc.php';
+
+        $the_sql_query = 'INSERT INTO interactions (product_interacted,user_interacted) VALUES (:product_interacted,:user_interacted);';
+        $the_preparment = $pdo->prepare($the_sql_query);
+
+        $the_preparment->bindParam(':product_interacted',$the_product_interacted);
+        $the_preparment->bindParam(':user_interacted',$the_user_id);
+
+        $the_preparment->execute();
+
+        $the_row_count = $the_preparment->rowCount();
+
+        if($the_row_count){
+            echo json_encode(['success'=>true,'added_to_inter'=>true]);
+        }
+
+    } catch(PDOException $e){
+        die('Failed Because Of ' . $e->getMessage());
     }
 }
 
