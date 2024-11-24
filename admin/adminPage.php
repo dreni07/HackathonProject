@@ -844,6 +844,16 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
             color:#333;
         }
 
+        .notifying-message p{
+            color:#333;
+            font-family:'Anaheim';
+            font-weight:500;
+            position:absolute;
+            top:5%;
+            left:50%;
+            transform:translateX(-50%);
+            font-size:13px;
+        }
        
 
 
@@ -857,6 +867,9 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
 
 </head>
 <body>
+    <div class="notifying-message">
+        <p>Every 5 Interactions Products,Get AI Will Add A New Product</p>
+    </div>
 
     <div class="notification-added">
         <div class="text">
