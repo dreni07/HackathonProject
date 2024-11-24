@@ -2,6 +2,8 @@
 
     include_once('../authentication/sessions.inc.php');
 
+    require 'productSuggested.php';
+
 
     // if($_SERVER['REQUEST_METHOD'] == 'GET' && empty($_SESSION['adminId'])){
     //     header('Location:../authentication/admin.html');
@@ -441,7 +443,7 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
 
 
 </body>
-<script src='adminPage.js'></script>
+<!-- <script src='adminPage.js'></script> -->
 <script>
     // function addingProduct(){
     //     var getting_image = null;
@@ -512,6 +514,196 @@ $the_profit = round((100 * $total) / $profit_money,2); // profit in percentage
     }
 
     changing();
+
+
+
+async function chartsData(){
+    try{
+        const context = {
+            method:'GET',
+            headers:{
+                'X-Requested-With':'XMLHttpRequest'
+            }
+        }
+
+        const response = await fetch('getSales.php',context);
+
+        if(!response.ok){
+            throw new Error('Something Went Wrong!');
+        }
+
+        const answer = await response.json();
+
+        let the_data = answer.data;
+
+        const the_days = Object.keys(the_data);
+        const the_orders = Object.values(the_data);
+
+        const canvas_element = document.getElementById('my_canvas').getContext('2d');
+
+        const the_chart = new Chart(canvas_element,{
+            type:'line',
+            data:{
+                labels:the_days,
+                datasets:[{
+                    label:'Orders:',
+                    data:the_orders,
+                    borderColor:'#a4b4f7',
+                    tension:0.1,
+                    lineTension:0.2,
+                    pointRadius:3,
+                    pointBackgroundColor:'#F7E7A4',
+                    pointHoverRadius:7,
+
+                }]
+            },
+            options:{
+                scales:{
+                    y:{
+                        beginAtZero:true,
+                        grid:{
+                            borderColor:'#333',
+                            borderWidth:1,
+                            color:'rgb(225, 225, 225)'
+                        }
+                    },
+                    x:{
+                        beginAtZero:true,
+                        grid:{
+                            borderColor:'#333',
+                            borderWidth:5,
+                            color:'rgb(225, 225, 225)'
+                        }
+                    }
+                }
+            }
+        })
+    } catch(err){
+        console.error(err);
+    }
+}
+
+chartsData();
+
+
+async function makeRequestForProduct(){
+    try{
+        const response = await fetch('productSuggested.php');
+
+        if(!response.ok){
+            throw new Error('Something Went Wrong!');
+        }
+
+        const answer = await response.json();
+
+        console.log(answer);
+
+
+        var the_category_name = answer.category_name;
+
+
+        var getting = localStorage.getItem('last_interaction_id') ? localStorage.getItem('last_interaction_id') : null;
+
+        if(!getting){
+            var new_local_storage = localStorage.setItem('last_interaction_id',answer.last_inserted_id);
+        }else{
+            getting = parseInt(getting);
+            if((getting + 4) <= answer.last_inserted_id){
+                console.log('This Is Local Storage Variable ', getting);
+                console.log('THIS IS THE ANSWER VARIABLE ', answer.last_inserted_id);
+                localStorage.removeItem('last_interaction_id');
+                localStorage.setItem('last_interaction_id',answer.last_inserted_id);
+
+                var AIresponse = askingAI(the_category_name);
+                var chatAIResponse = chatAI(the_category_name);
+
+            }else{
+                console.log('Not Achieving!');
+            }
+        }
+
+        
+        // var secondAIresponse = chatAI(the_category_name);
+
+
+
+
+    } catch(err){
+        console.error(err);
+    }
+}
+
+
+console.log(localStorage.getItem('last_interaction_id'));
+
+makeRequestForProduct();
+
+
+function askingAI(category_name){
+    const apiUrl =   'uRrdZGbE8t8-mG-ts1zc-AT3WXM_N948_eH1puHhfMI';
+
+    fetch(`https://api.unsplash.com/photos/random?query=${category_name}&client_id=${apiUrl}`).then(response=>{
+        return response.json();
+    }).then(answer=>{
+        console.log(answer);
+    })
+    
+}
+
+// async function chatAI(the_category){
+//     const url = 'https://chatgpt-api8.p.rapidapi.com/';
+//     const options = {
+//         method: 'POST',
+//         headers: {
+//             'x-rapidapi-key': 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de',
+//             'x-rapidapi-host': 'chatgpt-api8.p.rapidapi.com',
+//             'Content-Type': 'application/json'
+//         },
+//         body:JSON.stringify([
+//             {
+//                 content: 'Hello! Im an AI assistant bot based on ChatGPT 3. How may I help you?',
+//                 role: 'system'
+//             },
+//             {
+//                 content: `Give Me A Product That Belongs To This Category ${the_category} and also little description!`,
+//                 role: 'user'
+//             }
+//         ]) 
+//     };
+
+//     try {
+//         const response = await fetch(url, options);
+//         const result = await response.json();
+//         console.log(result);
+//     } catch (error) {
+//         console.error(error);
+//     }
+
+
+// }
+
+async function chatAI(the_category_name){
+    const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
+    const options = {
+        method: 'POST',
+        headers: {
+            'x-rapidapi-key': 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de',
+            'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+            query: `Give Me A Product About this category ${the_category_name} ONLY THE PRODUCT NAME `
+        }) 
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
     
 </script>

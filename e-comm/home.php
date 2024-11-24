@@ -93,6 +93,7 @@ $the_history_spent = historySpent() ? historySpent() : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel='stylesheet' href='../css/logIn.css?v=1.0'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim|Roboto Slab|Athiti|Cabin Condensed|Lora|Montserrat|Merriweather|Brusher|Pacifico">
     <style>
 body{
@@ -1150,6 +1151,251 @@ span a{
 
 }
 
+.services-page{
+    padding-top:50px;
+    height:350px;
+    width:100%;
+    display:flex;
+    justify-content:space-around;
+}
+
+.service-card{
+    height:300px;
+    width:350px;
+    background-color:#F9F9A9;
+    border-radius:4px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+    position:relative;
+    opacity:1;
+} 
+
+.service-card .icon-part{
+    position:absolute;
+    right:5%;
+    top:7%;
+    color:#333;
+    font-size:30px;
+}
+
+.service-card .service-title{
+    padding-left:20px;
+}
+
+.service-card .service-title h1{
+    color:#333;
+    font-family:'Roboto Slab';
+    font-weight:1000;
+    font-size:27px;
+}
+
+.service-card .service-paragraph{
+    padding-top:15px;
+    width:100%;
+    text-align:center;
+}
+
+.service-card .service-paragraph p{
+    white-space:wrap;
+    font-family:'Anaheim';
+    font-weight:1000;
+}
+
+.service-card .button-service{
+    height:60px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.service-card .button-service button{
+    padding:10px 20px;
+    background-color:#f4f4f1;
+    color:#333;
+    font-family:'Roboto Slab';
+    font-weight:1000;
+    cursor:pointer;
+    border:none;
+    border-radius:4px;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.19);
+    transition:.3s ease-in-out;
+}
+
+.service-card .button-service button:hover{
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+}
+
+
+
+
+footer{
+    margin-top:100px;
+    height:500px;
+    width:100%;
+    background-color:#b9cdbb;
+    display:grid;
+    grid-template-rows:1fr 2fr 1fr;
+}
+footer > div{
+    position:relative;
+}
+footer .second-part-content{
+    width:100%;
+    display:flex;
+    justify-content:space-evenly;
+}
+footer .second-part-content h2{
+    padding-bottom:10px;
+    color:#333;
+    font-weight:1000;
+    font-size:20px;
+    font-family:'Roboto Slab';
+    letter-spacing:1px;
+}
+footer .second-part-content > div p{
+    color:#333;
+    font-family:'Anaheim';
+    font-weight:1000;
+    opacity:0.8;
+    font-size:14px;
+    position:relative;
+    width:fit-content;
+    cursor:pointer;
+}
+footer .second-part-content > div p::before{
+    content:'';
+    position:absolute;
+    left:50%;
+    top:100%;
+    transform:translateX(-50%);
+    background-color:white;
+    width:0%;
+    height:1px;
+    transition:.3s ease-in-out;
+}
+footer .second-part-content > div p:hover::before{
+    width:100%;
+}
+
+.split-line{
+    width:100%;
+    height:2px;
+    background-color:white;
+    position:absolute;
+    bottom:0;
+    z-index:1;
+}
+
+.split-line-2{
+    width:100%;
+    height:2px;
+    position:absolute;
+    top:0;
+    background-color:white;
+}
+
+footer .first-part-content{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+footer .first-part-content > div{
+    margin:0 50px;
+}
+
+.card-loc{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.card-loc span{
+    color:#333;
+    font-family:'Athiti';
+    font-weight:500;
+    opacity:0.8;
+    position:relative;
+    z-index:1000;
+}
+.see-more-dropdown{
+    position:absolute;
+    height:200px;
+    width:100%;
+    background-color:#F5F5DC;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.19);
+    border-radius:6px;
+    overflow:auto;
+    display:grid;
+    grid-template-rows:repeat(4,1fr);
+    opacity:0;
+    transition:.3s ease-in-out;
+}
+.see-more-dropdown::-webkit-scrollbar{
+    width:6px;
+    background-color:transparent;
+}
+.see-more-dropdown::-webkit-scrollbar-thumb{
+    width:6px;
+    background-color:#333;
+    border-radius:6px;
+}
+.see-more-dropdown >div{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+}
+.see-more:hover .see-more-dropdown{
+    opacity:1;
+}
+
+.third-part-content{
+    display:flex;
+    justify-content:center;
+    align-items:end;
+    position:relative;
+}
+.third-part-content .copyright-part p{
+    color:#333;
+    font-family:'Anaheim';
+    font-weight:1000;
+    opacity:0.8;
+}
+
+.social-media-part{
+    position:absolute;
+    left:5%;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    flex-direction:row;
+}
+.social-media-part > div{
+    margin:0 10px;
+    height:50px;
+    width:50px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transition:.3s ease-in-out;
+}
+.social-media-part > div i{
+    color:#333;
+    transition:.5s ease-in-out;
+}
+.social-media-part >div:hover{
+    background-color:#fefe72;
+}
+.social-media-part > div:hover i{
+    color:#333;
+    transform:scale(1.05);
+}
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -1366,6 +1612,128 @@ span a{
         </div>
    </div>
 
+   <div class="services-page">
+        <div class="service-card">
+            <div class="service-title">
+                <h1>Check Order History</h1>
+            </div>
+            <div class="service-paragraph">
+                <p>This Allows you to quickly view and manage your past purchases.<br>Easily track the status of previous orders, review details like delivery dates and<br> payment methods.</p>
+            </div>
+            <div class="icon-part">
+                <i class='fa fa-camera-retro'></i>
+            </div>
+            <div class="button-service">
+                <button>View Details</button>
+            </div>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-title">
+                <h1>Return A Product</h1>
+            </div>
+            <div class="service-paragraph">
+                <p>This makes it simple to initiate a return for any eligible items.<br> Whether you're unsatisfied with your purchase or received a damaged product, this<br> feature guides you through the return process.</p>
+            </div>
+            <div class="icon-part">
+                <i class='fa fa-gift'></i>
+            </div>
+            <div class="button-service">
+                <button>View Details</button>
+            </div>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-title">
+                <h1>See Payment Methods</h1>
+            </div>
+            <div class="service-paragraph">
+                <p>This lets you view and manage the payment options linked to your account.<br> You can easily update or add new cards, set your preferred payment method,<br> and review transaction history.</p>
+            </div>
+            <div class="icon-part">
+                <i class='fa fa-bolt'></i>
+            </div>
+            <div class="button-service">
+                <button>View Details</button>
+            </div>
+        </div>
+   </div>
+
+   <footer>
+        <div class="first-part-content">
+            <div class="card-loc">
+                <img src="../website_images/icon-location.png" height='50' width='50'>
+                <span class="see-more">
+                    See More...
+                    <div class="see-more-dropdown">
+                        <div class="dropdown-div">Prishtine</div>
+                        <div class="dropdown-div">Gjilane</div>
+                        <div class="dropdown-div">Peje</div>
+                        <div class="dropdown-div">Albi Mall</div>
+                    </div>
+                </span>
+            </div>
+            <div class="card-loc">
+                <img src="../website_images/email-shop.png" height='50' width='50'>
+                <span>drenllazani10@gmail.com</span>
+            </div>
+            <div class="card-loc">
+                <img src="../website_images/icon-phone.png" height='50' width='50'>
+                <span>046129223</span>
+            </div>
+
+            <div class="split-line">
+
+            </div>
+        </div>
+        <div class="second-part-content">
+            <div class="content-row">
+                <h2>Features</h2>
+                <p>User-Friendly</p>
+                <p>Fast Transport</p>
+                <p>Secure & Reliable</p>
+                <p>24/7 Support</p>
+                <p>Costumizable Options</p>
+            </div>
+            <div class="content-row">
+                <h2>Company</h2>
+                <p>About Us</p>
+                <p>Careers</p>
+                <p>Privacy Policy</p>
+                <p>Terms Of Services</p>
+                <p>Copyrights</p>
+            </div>
+            <div class="content-row">
+                <h2>Resources</h2>
+                <p>Blog</p>
+                <p>Knowledge Base</p>
+                <p>FAQ</p>
+                <p>Tutorials</p>
+                <p>Case Studies</p>
+            </div>
+        </div>
+        <div class="third-part-content">
+            <div class="split-line-2"></div>
+            <div class="social-media-part">
+                <div class="social-media-image">
+                    <i class='fa fa-instagram' style='font-size:30px;'></i>
+                </div>
+                <div class="social-media-image">
+                    <i class='fa fa-facebook' style='font-size:30px;'></i>
+                </div>
+                <div class="social-media-image">
+                    <i class='fa fa-linkedin' style='font-size:30px;'></i>
+                </div>
+            </div>
+            <div class="copyright-part">
+                <p>Copyright&copy; All Rights Deserved&copy;</p>
+            </div>
+        </div>
+
+
+   </footer>
  
 
 
@@ -1809,6 +2177,7 @@ function animateCards(cards){
         }
     }
 }
+
 
 function gettingNumberOfPages(numberOfPages){
     for(let i = 0;i<numberOfPages;i++){
