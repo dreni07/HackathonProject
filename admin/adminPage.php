@@ -1043,6 +1043,10 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
 </body>
 <!-- <script src='adminPage.js'></script> -->
 <script>
+
+    require('dotenv').config();
+
+
     // function addingProduct(){
     //     var getting_image = null;
 
@@ -1300,7 +1304,7 @@ makeRequestForProduct();
 
 
 async function askingAI(category_name){
-    const apiUrl = 'uRrdZGbE8t8-mG-ts1zc-AT3WXM_N948_eH1puHhfMI';
+    const apiUrl = process.env.API_KEY
 
     try{
         const response = await fetch(`https://api.unsplash.com/photos/random?query=${category_name}&client_id=${apiUrl}`)
@@ -1322,12 +1326,14 @@ async function askingAI(category_name){
 
 
 async function chatAI(the_category_name){
+    const x_rapid_1 = process.env.x_rapid_1;
+    const x_rapid_2 = process.env.x_rapid_2
     const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
     const options = {
         method: 'POST',
         headers: {
-            'x-rapidapi-key': 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de',
-            'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
+            'x-rapidapi-key': x_rapid_1,
+            'x-rapidapi-host': x_rapid_2,
             'Content-Type': 'application/json'
         },
         body:JSON.stringify({
