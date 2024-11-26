@@ -398,7 +398,7 @@ async function signUp(){
                 throw new Error('Something Went Wrong!');
             }
 
-            const answer = await response.text();
+            const answer = await response.json();
 
             if(answer.success){
                 window.location.href = 'logIn.html';

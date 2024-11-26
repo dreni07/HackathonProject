@@ -612,120 +612,101 @@ function isValidUrl($url) {
         }
 
         .similar-products{
-            background-color:rgba(0, 0, 0, 0);
-            position:fixed;
-            top:0;
-            left:0;
-            right:0;
-            bottom:0;
-            z-index:-1000;
-
-            overflow:hidden;
-
+            padding-top:30px;
+            /* max-height:500px; */
+            height:auto;
+        }
+        .similar-products h2{
+            padding-left:20px;
+            color:#333;
+            font-family:'Athiti';
+            font-weight:500;
+            position:relative;
+            width:fit-content;
         }
 
-        .similar-products-added{
-            background-color:rgba(0, 0, 0, 0.464);
-            z-index:1000;
-        }
-
-        .similar-products .similar-products-div{
-            height:0px;
-            width:550px;
-            background-color:#fef8f9;
+        .similar-products h2::before{
+            content:'';
             position:absolute;
             bottom:0;
-            left:50%;
-            transform:translateX(-50%);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 4px 6px rgba(0, 0, 0, 0.15);
-            border-top-left-radius:4px;
-            border-top-right-radius:4px;
-            transition:.5s ease-in-out;
-            overflow:auto;
-        }
-
-
-        .similar-products .similar-products-div::-webkit-scrollbar{
-            width:8px;
-            background-color:transparent;
-        }
-
-        .similar-products .similar-products-div::-webkit-scrollbar-thumb{
-            width:8px;
+            left:12%;
+            width:50%;
+            height:1px;
             background-color:#333;
-            border-radius:4px;
-            cursor:grabbing;
         }
-        .similar-products .similar-products-div > div{
-            height:40%;
+
+
+        .similar-products-container{
             width:100%;
             display:flex;
-            justify-content:space-between;
+            height:500px;
+            justify-content:space-evenly;
+            flex-wrap:wrap;
         }
 
-        .similar-products .similar-products-div > div > div:nth-child(1){
-            width:40%;
+        .similar-products-container > div{
+            padding-top:30px;
+            width:30%;
+            flex-shrink:0; 
+            height:250px;
+            border:1px solid gray;
+            border-radius:2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+
+        }
+/* 
+        .similar-products-container > div{
+            width:30%;
+            height:300px;
+            border:1px solid red;
+            flex-shrink:0;
+            flex-grow:0;
+        }
+            */
+
+        .product > div:nth-child(1){
+            height:50%;
             display:flex;
             justify-content:center;
             align-items:center;
-        }
-        .similar-products .similar-products-div > div > div:nth-child(2){
-            width:60%;
+        } 
 
-        }
-        .similar-products-div > div > div:nth-child(2) h1{
-            padding-top:10px;
-            color:#333;
-            font-family:'Athiti';
-            font-weight:1000;
-            font-size:21px;
-        }
-        .similar-products-div > div > div:nth-child(2) p{
-            padding-top:10px;
-            color:#333;
-            font-family:'Athiti';
-            font-weight:1000;
-            font-size:17px;
-            opacity:0.8;
-            text-align:center;
-        }
-        .similar-products-div > div > div:nth-child(2) > div:nth-child(3){
-            height:30px;
-            width:100%;
+        .product > div:nth-child(2){
+            height:50%;
             display:flex;
-            justify-content:space-between;
-        }
-
-        .similar-products-div > div > div:nth-child(2) > div:nth-child(3) > div{
-            display:flex;
-        }
-
-        .similar-products-div > div > div:nth-child(2) > div:nth-child(3) button:nth-child(2){
-            padding:12px 20px;
-            border:1px solid black;
-            border-radius:4px;
-            background-color:transparent;
-            color:#333;
-            font-family:'Roboto Slab';
-            font-weight:500;
-            cursor:pointer;
-            display:flex;
+            justify-content:center;
             align-items:center;
-            margin-right:10px;
-            transition:.3s ease-in-out;
+            flex-direction:column;
         }
-
-        .similar-products-div > div > div:nth-child(2) > div:nth-child(3) button:nth-child(2):hover{
-            background-color:#d6cbc0;
+        .product > div:nth-child(2) p{
+            color:#333;
+            font-weight:1000;
+            font-family:'Athiti';
+            font-size:20px;
         }
-
+        .product > div:nth-child(2) button{
+            color:white;
+            font-family:'Athiti';
+            font-weight:1000;
+            background-color:#e74c3c;
+            border:none;
+            padding:10px 20px;
+            border-radius:4px;
+            cursor:pointer;
+        }
+         .product > div img{
+            height:170px;
+            width:200px;
+            border-radius:12px;
+        }
+        
+        
+         
 
 </style>    
 </head>
 <body>
-    <div class="similar-products">
-        <div class="similar-products-div"></div>
-    </div>
+    
     <!--- Upper Nav ---->
     
     <div class="upper-nav">
@@ -861,6 +842,14 @@ function isValidUrl($url) {
                 </div>
             </div>
         </div>
+
+        <div class="similar-products">
+            <h2>Similar Products</h2>
+
+            <div class="similar-products-container">
+
+            </div>
+        </div>
 </body>
 
 <script type="module">
@@ -963,9 +952,7 @@ function isValidUrl($url) {
             if(Array.isArray(the_similar_products)){
                 console.log(answer);
                 var similarProductsButton = document.getElementById('similarProductsButton');
-                similarProductsButton.addEventListener('click',()=>{
-                    displayingProducts(the_similar_products);
-                })
+                displayingProducts(the_similar_products);
             }else{
                 console.log('No Data Back');
             }
@@ -974,42 +961,78 @@ function isValidUrl($url) {
 
     gettingSimilarProducts();
 
-    function displayingProducts(Products){
-        var numberOfProducts = Products.length;
-        var similar_products_div = document.querySelector('.similar-products-div');
-        var similar_products = document.querySelector('.similar-products');
-        similar_products.classList.add('similar-products-added');
-            if(similar_products.classList.contains('similar-products-added')){
-                similar_products_div.style.height = '450px';
-                for(let j = 0;j<numberOfProducts;j++){
-                    var div_element = document.createElement('div');
-                    var child_image_div_element = document.createElement('div');
-                    var image = document.createElement('img');
-                    image.src = `../../admin/product_image/${Products[j].product_image}`;
-                    console.log(image);
-                    var data_quantity_child_div = document.createElement('div');
 
-                    createElement('h1',Products[j].product_name,data_quantity_child_div);
-                    var the_desc_div = createElement('div','',data_quantity_child_div);
-                    var the_buttons_div = createElement('div','',data_quantity_child_div);
-                    var paragraph = createElement('p',Products[j].product_description,the_desc_div);
-                    var div_quantity = createElement('div','',the_buttons_div);
-                    var decrease = createElement('button','-',div_quantity);
-                    var numberShowing = createElement('p',0,div_quantity)
-                    var increase = createElement('button','+',div_quantity);
-                    var confirmButton = createElement('button','Add To Cart',the_buttons_div);
+    function displayingProducts(the_similar_products){
+        var similar_products_container = document.querySelector('.similar-products-container')
+        the_similar_products.forEach((product,index)=>{
+
+            console.log(product);
+
+            var main_product_div = createElement('div','',similar_products_container);
+            var image_div = createElement('div','',main_product_div);
+            var text_button_div = createElement('div','',main_product_div);
+            var paragraph_name = createElement('p','',text_button_div);
+            var button_view = createElement('button','',text_button_div);
+            var product_image = createElement('img','',image_div);
+            
+
+            main_product_div.className = 'product';
 
 
-                    similar_products_div.append(div_element);
-                    div_element.append(child_image_div_element);
-                    div_element.append(data_quantity_child_div);
-                    child_image_div_element.append(image);
-
-                }
+            if(validURL(product.product_image)){
+                product_image.src = product.product_image;
+            }else{
+                product_image.src = `../../admin/product_image/${product.product_image}`;
             }
+
+            paragraph_name.innerHTML = product.product_name;
+            button_view.textContent = 'Add To Cart';
+
+            button_view.addEventListener('click',function(){
+                window.location.href = `addToCart.php?product_id=${product.product_id}`;
+            })
+
+
+
+
+        })
+    }
+    // function displayingProducts(Products){
+    //     var numberOfProducts = Products.length;
+    //     var similar_products_div = document.querySelector('.similar-products-div');
+    //     var similar_products = document.querySelector('.similar-products');
+    //     similar_products.classList.add('similar-products-added');
+    //         if(similar_products.classList.contains('similar-products-added')){
+    //             similar_products_div.style.height = '450px';
+    //             for(let j = 0;j<numberOfProducts;j++){
+    //                 var div_element = document.createElement('div');
+    //                 var child_image_div_element = document.createElement('div');
+    //                 var image = document.createElement('img');
+    //                 image.src = `../../admin/product_image/${Products[j].product_image}`;
+    //                 console.log(image);
+    //                 var data_quantity_child_div = document.createElement('div');
+
+    //                 createElement('h1',Products[j].product_name,data_quantity_child_div);
+    //                 var the_desc_div = createElement('div','',data_quantity_child_div);
+    //                 var the_buttons_div = createElement('div','',data_quantity_child_div);
+    //                 var paragraph = createElement('p',Products[j].product_description,the_desc_div);
+    //                 var div_quantity = createElement('div','',the_buttons_div);
+    //                 var decrease = createElement('button','-',div_quantity);
+    //                 var numberShowing = createElement('p',0,div_quantity)
+    //                 var increase = createElement('button','+',div_quantity);
+    //                 var confirmButton = createElement('button','Add To Cart',the_buttons_div);
+
+
+    //                 similar_products_div.append(div_element);
+    //                 div_element.append(child_image_div_element);
+    //                 div_element.append(data_quantity_child_div);
+    //                 child_image_div_element.append(image);
+
+    //             }
+    //         }
           
      
-    }
+    // }
 
     function createElement(elementName,elementContent,element_parent){
         var creating = document.createElement(elementName);
@@ -1025,12 +1048,18 @@ function isValidUrl($url) {
     var goToCartButton = document.getElementById('seeCart');
 
     goToCartButton.addEventListener('click',function(){
-        alert('Hello World!');
-
-        console.log('HEE')
-        
         window.location.href = "http://localhost/hackathonproject/e-comm/cart.php"
     })
+
+    function validURL(url){
+        try{    
+            const newUrl = new URL(url);
+            return true;
+        }catch(err){
+            console.error(err);
+            return false;
+        }
+    }
 
 
 </script>

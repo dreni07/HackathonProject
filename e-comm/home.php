@@ -1394,6 +1394,38 @@ footer .first-part-content > div{
     transform:scale(1.05);
 }
 
+.navigate-upper-div{
+    position:fixed;
+    right:-50%;
+    bottom:5%;
+    height:60px;
+    width:60px;
+    border-radius:50%;
+    background-color:#fefe72;
+    z-index:1000;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.5s ease-in-out;
+
+}
+
+.navigate-upper-div i{
+    font-size:20px;
+
+}
+
+.navigate-upper-div:hover{
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0 15px 30px rgba(0, 0, 0, 0.19);
+    transform:scale(1.05);
+}
+
+.navigate-upper-div-added{
+    right:5%;
+}
+
 
 
 
@@ -1414,8 +1446,15 @@ footer .first-part-content > div{
     </div>
 
 
+    <!--- NAVIGATE BACK TO HOME PART -->
+
+    <div class="navigate-upper-div">
+        <i class='fa fa-arrow-up'></i>
+    </div>
+
+
     <!--- UPPER NAV BAR --->
-    <div class="upper-nav">
+    <div class="upper-nav" id='top_page'>
             <div class="phone-part">
                 <p><img src="../website_images/phone-logo.png" height='10' width='10'>045441654</p>
             </div>
@@ -1595,7 +1634,7 @@ footer .first-part-content > div{
 
    <!--- TOP 5 PRODUCTS SOLD THIS WEEK --->
 
-   <div class="all-div">
+   <!-- <div class="all-div">
         <div class="title-introduction-section">
             <h1>Top 5 Products Sold This Week!</h1>
         </div>
@@ -1612,7 +1651,7 @@ footer .first-part-content > div{
             <button class='buttoni-paginate'></button>
             <button class='buttoni-paginate'></button>
         </div>
-   </div>
+   </div> -->
 
    <div class="services-page">
         <div class="service-card">
@@ -2299,6 +2338,34 @@ function gettingNumberOfPages(numberOfPages){
         })
         console.log(all_heart_buttons);
     }
+
+
+    var navigate_upper_div = document.querySelector('.navigate-upper-div');
+
+
+
+    window.addEventListener('scroll',()=>{
+        if(this.scrollY > 350){
+            navigate_upper_div.classList.add('navigate-upper-div-added');
+        }else{
+            navigate_upper_div.classList.remove('navigate-upper-div-added');
+
+        }
+    })
+
+    navigate_upper_div.addEventListener('click',function(){
+        window.location.href = '#top_page';
+    })
+
+    
+    
+
+
+
+
+
+    
+
 
 
 

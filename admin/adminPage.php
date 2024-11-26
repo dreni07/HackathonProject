@@ -1044,7 +1044,6 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
 <!-- <script src='adminPage.js'></script> -->
 <script>
 
-    require('dotenv').config();
 
 
     // function addingProduct(){
@@ -1304,10 +1303,10 @@ makeRequestForProduct();
 
 
 async function askingAI(category_name){
-    const apiUrl = process.env.API_KEY
+    const API_KEY = 'uRrdZGbE8t8-mG-ts1zc-AT3WXM_N948_eH1puHhfMI';
 
     try{
-        const response = await fetch(`https://api.unsplash.com/photos/random?query=${category_name}&client_id=${apiUrl}`)
+        const response = await fetch(`https://api.unsplash.com/photos/random?query=${category_name}&client_id=${API_KEY}`)
 
         if(!response.ok){
             throw new Error('Something Went Wrong!');
@@ -1326,8 +1325,8 @@ async function askingAI(category_name){
 
 
 async function chatAI(the_category_name){
-    const x_rapid_1 = process.env.x_rapid_1;
-    const x_rapid_2 = process.env.x_rapid_2
+    const x_rapid_1 = 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de';
+    const x_rapid_2 =  'chatgpt-gpt5.p.rapidapi.com';
     const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
     const options = {
         method: 'POST',
