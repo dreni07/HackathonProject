@@ -2380,25 +2380,49 @@ function gettingNumberOfPages(numberOfPages){
 
         let full_transcript = '';
         var my_var = '';
-        recognition.onresult = function(event){
+
+        var j = 0;
+
+
+        recognition.onresult = function(event){ 
+
             let transcript = '';
 
-            
             for(let i = event.resultIndex;i<event.results.length;i++){
-                console.log(i);
-                transcript += event.results[i][0].transcript;
+                if(event.results[i].isFinal){ // if the isFinal attribute is true then go on and save to the 
+                    // transcript the result
+                    // this is because the onresult event might repeat for one speak multiple times
+                    // adding the same word to the transcript variable
+                    transcript += event.results[i][0].transcript;
+                }
+                
             }
 
-            console.log(transcript);
+
 
             the_output_element.innerHTML =  transcript;
 
-            my_var += the_output_element.innerHTML;
+            full_transcript += the_output_element.innerHTML;
 
-            console.log(my_var);
+
 
 
         }
+
+
+        /// go on and make a stop to the speech once you stop the speech
+        /// take the variable that holds the whole speech 
+        /// and then send that speech to openAI 
+        /// to search for a product
+        /// and then where are multiple choices or only one choice
+        /// make the text-to-speech with the chatgpt text
+        /// and after that make the speech again start
+        /// and then also do the same thing with the speech talked
+        /// and again make the request to the chatgpt with the results
+        /// and after the results
+        /// make the page go immeaditly to a particular page for example the page of that product
+
+
 
 
 
@@ -2416,6 +2440,67 @@ function gettingNumberOfPages(numberOfPages){
 
     }else{
         console.log('noo');
+    }
+
+    class speechControler{
+        constructor(){
+            const speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+
+            if(speechRecognition){
+                this.recognition = new speechRecognition();
+
+                this.recognition.lang = 'en-US';
+                this.recognition.interimResults = true;
+                this.recognition.maxAlternatives = 1;
+                this.recognition.continuous = true;
+            }
+         
+        }
+
+
+        startingSpeech(){
+            this.recognition.start(); // start the speech
+        }
+
+        checkingForSpeechs(){
+            let the_value = ''
+            this.recognition.onresult = function(event){
+
+                let transcript = '';
+
+                for(let i = event.resultIndex;i<event.results.length;i++){
+                    if(event.results[i].isFinal){
+                        transcript += event.results[i][0].transcript;
+                    }
+                }
+
+                the_value += transcript;
+
+            }
+
+            return the_value;
+        }
+    }
+
+
+    const the_speech_controller = new speechControler();
+
+    the_speech_controller.startingSpeech();
+
+    var the_value = the_speech_controller.checkingForSpeechs();
+
+    console.log(the_value);
+
+    function startSpeech(){
+        var speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+
+        const speechRecognitionInstance = new speechRecognition();
+
+        speechRecognitionInstance.start();
+
+
+
+
     }
 
 
