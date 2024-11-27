@@ -2504,32 +2504,7 @@ function gettingNumberOfPages(numberOfPages){
     }
 
 
-    async function chatAI(input){
-        const x_rapid_1 = 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de';
-        const x_rapid_2 =  'chatgpt-gpt5.p.rapidapi.com';
-        const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
-        const options = {
-            method: 'POST',
-            headers: {
-                'x-rapidapi-key': x_rapid_1,
-                'x-rapidapi-host': x_rapid_2,
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({
-                query: `Give Me A Product About this category ${the_category_name} ONLY THE PRODUCT NAME AND GIVE ME PRODUCT PRICE PRODUCT DESCRIPTION ALL SEPERATED BY * AND DONT GIVE LABELS JUST VALUES AND WHEN YOU GENERATE THE PRICE GENERATE IT WITHOUT THE DOLLAR SIGN JUST THE NUMBER;`
-            }) 
-        };
-
-        try {
-            const response = await fetch(url, options);
-            const result = await response.json();
-            console.log(result);
-            return result;
-
-        } catch (error) {
-            console.error(error);
-        }
-}
+    
 
 
 
