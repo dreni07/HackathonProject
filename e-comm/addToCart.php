@@ -431,7 +431,20 @@ function isValidUrl($url) {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
             border-radius:4px;
 
+        }
 
+        .product-details-image img{
+            border-radius:6px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+            cursor:pointer;
+            transition:.3s ease-in-out;
+
+        }
+
+        .product-details-image img:hover{
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 20px 24px rgba(0, 0, 0, 0.19);
+            transform:scale(1.02);
+            -webkit-filter:grayscale(30%);
         }
 
         a{
@@ -639,7 +652,7 @@ function isValidUrl($url) {
         .similar-products-container{
             width:100%;
             display:flex;
-            height:500px;
+            height:100%;
             justify-content:space-evenly;
             flex-wrap:wrap;
         }
@@ -648,21 +661,13 @@ function isValidUrl($url) {
             padding-top:30px;
             width:30%;
             flex-shrink:0; 
-            height:250px;
+            height:auto;
             border:1px solid gray;
             border-radius:2px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+            flex-grow:0;
 
         }
-/* 
-        .similar-products-container > div{
-            width:30%;
-            height:300px;
-            border:1px solid red;
-            flex-shrink:0;
-            flex-grow:0;
-        }
-            */
 
         .product > div:nth-child(1){
             height:50%;
@@ -708,6 +713,8 @@ function isValidUrl($url) {
 <body>
     
     <!--- Upper Nav ---->
+
+    <p class='<?php echo $the_product_id?> hidden-para' style='display:none;'></p>
     
     <div class="upper-nav">
             <div class="phone-part">
@@ -743,7 +750,7 @@ function isValidUrl($url) {
     <div class="under-nav">
             <div class="logo-categories">
                 <div class="logo">
-                    <h1 style='padding-left:10px;'><img src="../../website_images/shop-logo.png" height='40' width='40' style='position:relative; top:10px; padding-right:10px;'>Shopcart</h1>
+                    <a href="../home.php" target='_blank'><h1 style='padding-left:10px;'><img src="../../website_images/shop-logo.png" height='40' width='40' style='position:relative; top:10px; padding-right:10px;'>Shopcart</h1></a>
                 </div>
                 <div class="categories">
                     <h2>Categories <img src="../../images/down-arrow.png" height='15' width='15' style='position:relative;top:5px;'></h2>
@@ -798,7 +805,7 @@ function isValidUrl($url) {
                                 <h1><?php echo htmlspecialchars($the_products['product_name'])?></h1>
                                 <p><?php echo htmlspecialchars($the_products['product_description'])?></p>
                                 <div class="button-similarity">
-                                    <button id='similarProductsButton'><a id='anchor-tag' style='display:none;' href="/e-comm/e-commerce/similarProducts.php/?similar_product=<?php echo $the_product_id;?>"></a>See Similar Products</button>
+                                    <button id='similarProductsButton'>Similar Products</button>
                                     <div class="tooltip">
                                         <p id='para-tooltip'></p>
                                     </div>
@@ -942,10 +949,14 @@ function isValidUrl($url) {
     addProductToCart();
 
 
-    var anchor_tag = document.getElementById('anchor-tag');
+    var hidden_para = document.querySelector('.hidden-para');
+    var the_classes = Array.from(hidden_para.classList);
+    var similar_products_container = document.querySelector('.similar-products-container');
+
     function gettingSimilarProducts(){
-        var the_href_attr = anchor_tag.getAttribute('href');
-        fetch(the_href_attr).then(response=>{
+        var the_product_id = parseInt(the_classes[0]);
+        var the_endpoint = `../similarProducts.php?product_id=${the_product_id}`;
+        fetch(the_endpoint).then(response=>{
             return response.json();
         }).then(answer=>{
             var the_similar_products = answer.data;
@@ -954,7 +965,12 @@ function isValidUrl($url) {
                 var similarProductsButton = document.getElementById('similarProductsButton');
                 displayingProducts(the_similar_products);
             }else{
-                console.log('No Data Back');
+                var new_element = document.createElement('p');
+
+                new_element.innerHTML = 'No Similar Products';
+
+                similar_products_container.append(new_element);
+
             }
         })
     }
@@ -963,11 +979,8 @@ function isValidUrl($url) {
 
 
     function displayingProducts(the_similar_products){
-        var similar_products_container = document.querySelector('.similar-products-container')
+      
         the_similar_products.forEach((product,index)=>{
-
-            console.log(product);
-
             var main_product_div = createElement('div','',similar_products_container);
             var image_div = createElement('div','',main_product_div);
             var text_button_div = createElement('div','',main_product_div);
@@ -997,42 +1010,7 @@ function isValidUrl($url) {
 
         })
     }
-    // function displayingProducts(Products){
-    //     var numberOfProducts = Products.length;
-    //     var similar_products_div = document.querySelector('.similar-products-div');
-    //     var similar_products = document.querySelector('.similar-products');
-    //     similar_products.classList.add('similar-products-added');
-    //         if(similar_products.classList.contains('similar-products-added')){
-    //             similar_products_div.style.height = '450px';
-    //             for(let j = 0;j<numberOfProducts;j++){
-    //                 var div_element = document.createElement('div');
-    //                 var child_image_div_element = document.createElement('div');
-    //                 var image = document.createElement('img');
-    //                 image.src = `../../admin/product_image/${Products[j].product_image}`;
-    //                 console.log(image);
-    //                 var data_quantity_child_div = document.createElement('div');
-
-    //                 createElement('h1',Products[j].product_name,data_quantity_child_div);
-    //                 var the_desc_div = createElement('div','',data_quantity_child_div);
-    //                 var the_buttons_div = createElement('div','',data_quantity_child_div);
-    //                 var paragraph = createElement('p',Products[j].product_description,the_desc_div);
-    //                 var div_quantity = createElement('div','',the_buttons_div);
-    //                 var decrease = createElement('button','-',div_quantity);
-    //                 var numberShowing = createElement('p',0,div_quantity)
-    //                 var increase = createElement('button','+',div_quantity);
-    //                 var confirmButton = createElement('button','Add To Cart',the_buttons_div);
-
-
-    //                 similar_products_div.append(div_element);
-    //                 div_element.append(child_image_div_element);
-    //                 div_element.append(data_quantity_child_div);
-    //                 child_image_div_element.append(image);
-
-    //             }
-    //         }
-          
-     
-    // }
+   
 
     function createElement(elementName,elementContent,element_parent){
         var creating = document.createElement(elementName);

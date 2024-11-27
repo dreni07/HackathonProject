@@ -1775,6 +1775,9 @@ footer .first-part-content > div{
 
 
    </footer>
+
+   <button id='speak'>Speak</button>
+   <p id='output'></p>
  
 
 
@@ -2356,6 +2359,116 @@ function gettingNumberOfPages(numberOfPages){
     navigate_upper_div.addEventListener('click',function(){
         window.location.href = '#top_page';
     })
+
+
+
+    var speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if(speechRecognition){
+        var speak = document.getElementById('speak');
+
+        var the_output_element = document.getElementById('output');
+
+        const recognition = new speechRecognition();
+
+
+        recognition.lang = 'en-US';
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 1;
+        recognition.continuous = true; 
+
+
+        let full_transcript = '';
+        var my_var = '';
+        recognition.onresult = function(event){
+            let transcript = '';
+
+            
+            for(let i = event.resultIndex;i<event.results.length;i++){
+                console.log(i);
+                transcript += event.results[i][0].transcript;
+            }
+
+            console.log(transcript);
+
+            the_output_element.innerHTML =  transcript;
+
+            my_var += the_output_element.innerHTML;
+
+            console.log(my_var);
+
+
+        }
+
+
+
+
+
+        recognition.onerror = function(event){
+            the_output_element.innerHTML = 'Error Occoured ' + event.error;
+        }
+
+
+        speak.addEventListener('click',()=>{
+            recognition.start();
+            the_output_element.innerHTML = 'Im Listening';
+        })
+
+    }else{
+        console.log('noo');
+    }
+
+
+    async function chatAI(input){
+        const x_rapid_1 = 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de';
+        const x_rapid_2 =  'chatgpt-gpt5.p.rapidapi.com';
+        const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
+        const options = {
+            method: 'POST',
+            headers: {
+                'x-rapidapi-key': x_rapid_1,
+                'x-rapidapi-host': x_rapid_2,
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                query: `Give Me A Product About this category ${the_category_name} ONLY THE PRODUCT NAME AND GIVE ME PRODUCT PRICE PRODUCT DESCRIPTION ALL SEPERATED BY * AND DONT GIVE LABELS JUST VALUES AND WHEN YOU GENERATE THE PRICE GENERATE IT WITHOUT THE DOLLAR SIGN JUST THE NUMBER;`
+            }) 
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            console.log(result);
+            return result;
+
+        } catch (error) {
+            console.error(error);
+        }
+}
+
+
+
+    // after I save on the variable the result from all the text-speech 
+    // every time i talk i will send it automaticlly to the chat api and he will generate me a product about that
+
+    // function textToSpeech(){
+    //     speak.onclick = function(){
+    //         var the_content = speak.textContent;
+
+
+    //         if('speechSynthesis' in window){
+    //             var utterance = new SpeechSynthesisUtterance(the_content);
+
+    //             utterance.rate = 1;
+    //             utterance.pitch = 1;
+    //             utterance.volume = 1;
+
+    //             window.speechSynthesis.speak(utterance);
+    //         }
+    //     }
+    // }
+
+    // textToSpeech();
 
     
     
