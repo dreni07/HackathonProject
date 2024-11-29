@@ -172,7 +172,7 @@ function addToInteractions($the_product_interacted,$the_user_id){
         $the_row_count = $the_preparment->rowCount();
 
         if($the_row_count){
-            echo json_encode(['success'=>true,'added_to_inter'=>true]);
+            return true;
         }
 
     } catch(PDOException $e){

@@ -1426,6 +1426,79 @@ footer .first-part-content > div{
     right:5%;
 }
 
+.chat-part{
+    height:60px;
+    width:60px;
+    background-color:#6A5ACD;
+    position:fixed;
+    left:5%;
+    bottom:5%;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+
+}
+
+.chat-part i{
+    color:white;
+    font-size:23px;
+}
+
+.tooltip-computer{
+    position:absolute;
+    top:-130%;
+    left:50%;
+    transform:translateX(-50%);
+    height:70px;
+    width:150px;
+    border-radius:6px;
+    background-color:#6A5ACD;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+
+}
+
+.tooltip-computer::before{
+    content:'';
+    position:absolute;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top:8px solid #6A5ACD;
+    border-bottom:5px solid transparent;
+    top:100%;
+    left:50%;
+    transform:translate(-50%,0%);
+}
+
+.tooltip-user{
+    position:absolute;
+    top:-130%;
+    left:50%;
+    transform:translateX(-50%);
+    height:70px;
+    width:150px;
+    border-radius:6px;
+    background-color:white;
+    z-index:1000;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+
+}
+
+.tooltip-computer::before{
+    content:'';
+    position:absolute;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top:8px solid white;
+    border-bottom:5px solid transparent;
+    top:100%;
+    left:50%;
+    transform:translate(-50%,0%);
+}
+
+
 
 
 
@@ -1515,7 +1588,7 @@ footer .first-part-content > div{
                 <div class="cart-inside-account">
                     <div class="cart">
                         <img src="../website_images/cart-img.png" height='30' width='30' style='position:relative; top:10px;'>
-                        <span><a href='./cart.php'>Cart</a></span>
+                        <span>Cart</span>
                     </div>
                     <div class="acc">
                         <img src="../website_images/log-out.png" height='20' width='20' style='position:relative; top:5px;'>
@@ -1778,6 +1851,18 @@ footer .first-part-content > div{
 
    <button id='speak'>Speak</button>
    <p id='output'></p>
+
+   <button id='endTalk'>End Talk</button>
+
+   <div class="chat-part">
+        <i class='fa fa-comment'></i>
+        <div class="tooltip-user">
+            <p id='user-paragraph'></p>
+        </div>
+        <div class="tooltip-computer">
+            <p id='AI-paragraph'></p>
+        </div>
+   </div>
  
 
 
@@ -2362,52 +2447,52 @@ function gettingNumberOfPages(numberOfPages){
 
 
 
-    var speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    // var speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    if(speechRecognition){
-        var speak = document.getElementById('speak');
+    // if(speechRecognition){
+    //     var speak = document.getElementById('speak');
 
-        var the_output_element = document.getElementById('output');
+    //     var the_output_element = document.getElementById('output');
 
-        const recognition = new speechRecognition();
-
-
-        recognition.lang = 'en-US';
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 1;
-        recognition.continuous = true; 
+    //     const recognition = new speechRecognition();
 
 
-        let full_transcript = '';
-        var my_var = '';
+    //     recognition.lang = 'en-US';
+    //     recognition.interimResults = true;
+    //     recognition.maxAlternatives = 1;
+    //     recognition.continuous = true; 
 
-        var j = 0;
+
+    //     let full_transcript = '';
+    //     var my_var = '';
+
+    //     var j = 0;
 
 
-        recognition.onresult = function(event){ 
+    //     recognition.onresult = function(event){ 
 
-            let transcript = '';
+    //         let transcript = '';
 
-            for(let i = event.resultIndex;i<event.results.length;i++){
-                if(event.results[i].isFinal){ // if the isFinal attribute is true then go on and save to the 
-                    // transcript the result
-                    // this is because the onresult event might repeat for one speak multiple times
-                    // adding the same word to the transcript variable
-                    transcript += event.results[i][0].transcript;
-                }
+    //         for(let i = event.resultIndex;i<event.results.length;i++){
+    //             if(event.results[i].isFinal){ // if the isFinal attribute is true then go on and save to the 
+    //                 // transcript the result
+    //                 // this is because the onresult event might repeat for one speak multiple times
+    //                 // adding the same word to the transcript variable
+    //                 transcript += event.results[i][0].transcript;
+    //             }
                 
-            }
+    //         }
 
 
 
-            the_output_element.innerHTML =  transcript;
+    //         the_output_element.innerHTML =  transcript;
 
-            full_transcript += the_output_element.innerHTML;
-
-
+    //         full_transcript += the_output_element.innerHTML;
 
 
-        }
+
+
+    //     }
 
 
         /// go on and make a stop to the speech once you stop the speech
@@ -2428,24 +2513,96 @@ function gettingNumberOfPages(numberOfPages){
 
 
 
-        recognition.onerror = function(event){
-            the_output_element.innerHTML = 'Error Occoured ' + event.error;
+    //     recognition.onerror = function(event){
+    //         the_output_element.innerHTML = 'Error Occoured ' + event.error;
+    //     }
+
+
+    //     speak.addEventListener('click',()=>{
+    //         recognition.start();
+    //         the_output_element.innerHTML = 'Im Listening';
+    //     })
+
+    // }else{
+    //     console.log('noo');
+    // }
+
+    var cart = document.querySelector('.cart');
+
+
+    cart.onclick = function(){
+        alert('Hello Dren!');
+        window.location.href = 'cart.php';
+    }
+    
+
+    var the_user_paragraph = document.getElementById('user-paragraph');
+
+    var the_AI_paragraph = document.getElementById('AI-paragraph');
+
+
+    class textController{
+
+   
+        textToSpeech(the_content){
+            if('speechSynthesis' in window){
+                var utterance = new SpeechSynthesisUtterance(the_content);
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+
+                window.speechSynthesis.speak(utterance);
+
+
+                lettersMoving(the_content,the_user_paragraph);
+
+                utterance.onend = function(){
+                    the_speech_controller.startingSpeech();
+                    the_speech_controller.checkingForSpeechs();
+                }
+            }
+            
+            }
+
+        
+
+        first_speech(the_content_speech){
+            if('speechSynthesis' in window){
+                var my_utterance = new SpeechSynthesisUtterance(the_content_speech);
+
+                my_utterance.rate = 1;
+                my_utterance.pitch = 1;
+                my_utterance.volume = 1;
+
+                window.speechSynthesis.speak(my_utterance);
+
+                lettersMoving(the_content_speech,the_AI_paragraph);
+
+                my_utterance.onend = function(){
+                    the_speech_controller.startingSpeech();
+                    the_speech_controller.checkingForSpeechs();
+                }
+
+                
+            }
         }
 
+        cancelUtterance(){
+            window.speechSynthesis.cancel();
+        }
 
-        speak.addEventListener('click',()=>{
-            recognition.start();
-            the_output_element.innerHTML = 'Im Listening';
-        })
-
-    }else{
-        console.log('noo');
+        
     }
 
+    const the_text_to_speech = new textController();
+
+    let verify_talk = false;
     class speechControler{
+        
         constructor(){
             const speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
 
+            
             if(speechRecognition){
                 this.recognition = new speechRecognition();
 
@@ -2476,32 +2633,165 @@ function gettingNumberOfPages(numberOfPages){
 
                 the_value += transcript;
 
+                the_user_paragraph.innerHTML = the_value;                
+
             }
 
-            return the_value;
+            
+
+            
+            
         }
+
+        hasUserStopTalking(callback){
+
+            let is_user_talking = false;
+            this.recognition.onspeechend = function(){
+                is_user_talking = true;
+                callback(is_user_talking); // ka me u thirr qiky funksion
+                // me ni vler 
+                // edhe qiky funksion u bo pass sikur nje callback function
+                // edhe eka ni parameter ku ka me check nese qaj parameter
+                // osht true or false
+                // nese osht true bon diqka otherwise bon diqka tjeter
+            }
+           
+            callback(is_user_talking);
+
+            // nese koka e vertet qe useri u nal edhe nuk po fol
+            // mo boje ni request domethane 
+            // qe i mbledh maspari te dhenat per tfolmen qe eka bo aj user
+            // edhe ja dergon chatit
+        }
+
+        endTalk(){
+            this.recognition.stop();
+        }
+
+
     }
 
 
     const the_speech_controller = new speechControler();
 
-    the_speech_controller.startingSpeech();
+    
+    // the_speech_controller.startingSpeech();
 
-    var the_value = the_speech_controller.checkingForSpeechs();
+    // var the_value = the_speech_controller.checkingForSpeechs();
 
-    console.log(the_value);
+    setTimeout(()=>{
+        the_speech_controller.hasUserStopTalking((the_param)=>{
+            if(!the_param){
+                console.log('User Is Talking');
+            }else{
+                console.log('User Stopped Talking!');
+                var the_value = document.getElementById('output').innerHTML;
+                chatAI(the_value).then(response=>{
+                    var the_answer = response.result;
+                    the_text_to_speech.textToSpeech(the_answer);
+                });
+            }
+        })
+    },100)
 
-    function startSpeech(){
-        var speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
-
-        const speechRecognitionInstance = new speechRecognition();
-
-        speechRecognitionInstance.start();
 
 
-
-
+    // make the function that when the start button is clicked
+    // then the tooltip appears and says like hello how can we help you about the shop today!
+   
+function lettersMoving(the_content,the_element){
+        var i = 0;
+        var the_parent_div = the_element.parentElement;
+        the_parent_div.style.zIndex = 1000;
+        let my_interval = setInterval(()=>{
+            if(i == the_content.length){
+                clearInterval(my_interval);
+            }else{
+                the_element.innerHTML += the_content[i];
+                i++;
+            }
+        },50)
     }
+
+async function chatAI(the_prompt){
+    const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
+    const options = {
+        method: 'POST',
+        headers: {
+            'x-rapidapi-key': 'e2b949a7cemsh503ba2581247ed5p1e6919jsnd40034f5a671',
+            'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(
+            {
+                query: `Generate a ${the_prompt} related product with the format: product name(only the name of the product) product price(only the price of the product)product description (short). Separate each by * and price as a number only. No extra details.`
+
+            }
+        ) 
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        return result;
+        console.log(result);
+    } catch (error) {
+        console.error(error);
+    }
+
+    
+
+}
+
+    
+
+
+
+
+document.getElementById('endTalk').addEventListener('click',function(){
+    the_speech_controller.endTalk();
+    the_text_to_speech.cancelUtterance();
+    document.getElementById('output').innerHTML = '';
+})
+
+let the_chat = document.querySelector('.chat-part');
+
+the_chat.addEventListener('click',function(){
+    the_text_to_speech.first_speech('Hello Welcome To Our Store!');
+})
+
+
+
+
+
+    // first i need to 
+    // zgjidhe problemin
+    // se qysh kome rujt speech perderisa useri osht duke fol
+    // maspari sa her qe recognition osht onresult
+    // me thirr ni funksion te caktum
+    // qe ma run krejt mesazhin te cilin e ka fol useri
+    // tani qat mesazh masi tja qoj domethan une 
+    // chatit atehere e boj ni text to speech me response
+    // edhe mas responses 
+    // e boj restart again per me fol useri edhe e boj repeat qit proces disa here
+
+//     function pauseRecognition() {
+//   recognition.abort(); // Pauses and stops the recognition
+//   console.log("Recognition paused");
+// }
+
+
+    // function startSpeech(){
+    //     var speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+
+    //     const speechRecognitionInstance = new speechRecognition();
+
+    //     speechRecognitionInstance.start();
+
+
+
+
+    // }
 
 
     
@@ -2531,18 +2821,6 @@ function gettingNumberOfPages(numberOfPages){
     // textToSpeech();
 
     
-    
-
-
-
-
-
-    
-
-
-
-
-
 
 </script>
 </html>

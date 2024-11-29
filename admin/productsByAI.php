@@ -72,11 +72,12 @@ $AIProducts = getProductsByAI() ? getProductsByAI() : [];
             display:flex;
             flex-direction:column;
             align-items:center;
+            overflow:auto;
         }
         .all-products .product{
             margin:15px 0;
-            flex-shrink:0;
-            flex-grow:0;
+            flex-shrink:1;
+            flex-grow:1;
             width:100%;
             height:100px;
             background:#FFFFF0;

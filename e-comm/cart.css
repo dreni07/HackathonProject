@@ -3,6 +3,7 @@ body{
     padding:0;
     background-color:#F5F5DC;
     overflow-x:hidden;
+
 }
 .container-cart{
     height:100vh;
@@ -313,4 +314,11 @@ body{
     font-family:'Anaheim';
     font-weight:500;
     opacity:0.8;
+}
+
+
+.go-back-home{
+    position:fixed;
+    top:0;
+    left:5%;
 }

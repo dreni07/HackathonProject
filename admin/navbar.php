@@ -123,9 +123,9 @@
                         </div>
                     </div>
                     <div class="nav-part">
-                        <div class="navigation-div addProductUI">
+                        <div class="navigation-div AIImpacted">
                             <i class='material-icons icon'>add</i>
-                            <p>Add Product</p>
+                            <p><a href="AIImpacted.php">AI Analys</a></p>
                         </div>
                     </div>
                     <div class="nav-part">
@@ -157,9 +157,17 @@
 
 
 
-        if(n.classList.contains(the_file_name)){
+
+        var the_classes = Array.from(n.classList);
+
+        if(the_classes[1] == the_file_name){
+            console.log(the_classes[1]);
+            console.log(the_file_name);
             n.classList.add('active');
+            n.style.backgroundColor = 'background-color:rgb(191, 248, 191)';
         }
     })
+
+    
 </script>
 </html>

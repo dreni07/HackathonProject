@@ -55,36 +55,6 @@ $currDate = $new_instance->currDate();
 
 
 
-// function seeNews($the_date){
-//     try{
-//         require '../authentication/db.inc.php';
-
-//         $first_sql = 'SELECT * FROM news WHERE news_date >= :old_date;';
-//         $the_sql = 'SELECT * FROM news;';
-
-//         $final_query = $the_date ? $first_sql : $the_sql;
-
-//         $preparing = $pdo->prepare($final_query);
-        
-//         if($the_date){
-//             $preparing->bindParam(':old_date',$the_date);
-//         }
-
-//         $preparing->execute();
-
-//         $fetched_data = $preparing->fetchAll(PDO::FETCH_ASSOC);
-
-//         if($fetched_data){
-//             return $fetched_data;
-//         }
-
-//     } catch(PDOException $e){
-//         die('Failed Because Of ' . $e->getMessage());
-//     }
-
-// }
-
-// $website_news = seeNews($currDate) ? seeNews($currDate) : [];
 
 
 
@@ -899,13 +869,13 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
                 <div class="nav-part">
                     <div class="navigation-div">
                         <i class='material-icons icon'>add</i>
-                        <p><a href="addProductUI.php">Add Product</a></p>
+                        <p><a href="AIImpacted.php">AI Analys</a></p>
                     </div>
                 </div>
                 <div class="nav-part">
                     <div class="navigation-div">
                         <i class='material-icons icon'>pending</i>
-                        <p><a href="productsByAI.php">See AI Products</a></p>
+                        <p><a href="productsByAI.php">AI Products</a></p>
                     </div>
                 </div>
              
@@ -1238,16 +1208,20 @@ async function makeRequestForProduct(){
                 
                 Promise.all([chatAIResponse, the_image]).then((responses) => {
                 // Destructure the responses
-                    var answerFromAI = responses[0].response; // chatAI response
+                    var answerFromAI = responses[0].response;// AI Response
+
+
                     var answerFromImage = responses[1];
                     
-                    console.log(answerFromImage)// askingAI response
-
+                    
                     // Process chatAI response
                     var the_response = answerFromAI.split('*');
+
+
+                    
                     var the_product_name = the_response[0];
                     var the_product_price = the_response[1];
-                    var the_product_description = the_response[2];
+                    var the_product_description = the_response[2]
                     var the_product_in_stock = 10; // Assuming a fixed stock for now
 
                     // Update the_data_for_product_added
@@ -1280,7 +1254,6 @@ async function makeRequestForProduct(){
 
 
             }else{
-
                 console.log(getting);
                 console.log(answer.last_inserted_id);
             }
@@ -1324,36 +1297,42 @@ async function askingAI(category_name){
 
 
 
-async function chatAI(the_category_name){
-    const x_rapid_1 = 'e91fed1247msh40f39dca1776a54p144a99jsn64bd354cb6de';
-    const x_rapid_2 =  'chatgpt-gpt5.p.rapidapi.com';
+
+async function chatAI(the_prompt){
+    
+
     const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
     const options = {
         method: 'POST',
         headers: {
-            'x-rapidapi-key': x_rapid_1,
-            'x-rapidapi-host': x_rapid_2,
+            'x-rapidapi-key': 'e2b949a7cemsh503ba2581247ed5p1e6919jsnd40034f5a671',
+            'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
             'Content-Type': 'application/json'
         },
-        body:JSON.stringify({
-            query: `Give Me A Product About this category ${the_category_name} ONLY THE PRODUCT NAME AND GIVE ME PRODUCT PRICE PRODUCT DESCRIPTION ALL SEPERATED BY * AND DONT GIVE LABELS JUST VALUES AND WHEN YOU GENERATE THE PRICE GENERATE IT WITHOUT THE DOLLAR SIGN JUST THE NUMBER;`
-        }) 
+        body:JSON.stringify(
+            {
+                // query: `Give Me  a random ${the_prompt} category related product like this: product name(only the name of the product) product price(only the price of the product)product description (short). Separate each by * and price as a number only. No extra details please.`
+                query: `Give Me A Product About this category ${the_prompt} ONLY THE PRODUCT NAME AND GIVE ME PRODUCT PRICE PRODUCT DESCRIPTION ALL SEPERATED BY * AND DONT GIVE LABELS JUST VALUES AND WHEN YOU GENERATE THE PRICE GENERATE IT WITHOUT THE DOLLAR SIGN JUST THE NUMBER`
+            }   
+        ) 
     };
 
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        console.log(result);
         return result;
-
+        console.log(result);
     } catch (error) {
         console.error(error);
     }
+
+    
+
 }
 
 
 async function addingToDb(the_object_data){
-    console.log(the_object_data);
+    console.log(the_object_data,'HELLOO');
     const the_data = new FormData();
 
     the_data.append('product_name',the_object_data.product_name);

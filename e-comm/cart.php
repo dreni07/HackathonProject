@@ -117,10 +117,15 @@ $the_total_price = total_and_names() ? total_and_names()['the_total'] : null;
     <title>Document</title>
     <link rel='stylesheet' href='cart.css'>
     <link rel='stylesheet' href='../css/logIn.css?v=1.0'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anaheim|Roboto Slab|Athiti|Cabin Condensed|Lora|Montserrat|Merriweather|Brusher|Pacifico">
 </head>
 <body>
 <div class="container-cart">
+    <div class="go-back-home" style='position:absolute;top:5%;left:2%' onclick=goHome()>
+        <i class='fa fa-home' style='font-size:30px;color:#333;cursor:pointer;'></i>
+    </div>
         <div class="cart-info">
             <div class="left-side-cart">
                 <div class="title-part">
@@ -235,7 +240,6 @@ $the_total_price = total_and_names() ? total_and_names()['the_total'] : null;
     var confirm = document.querySelector('.confirm');
     var confirm_input = document.querySelector('.confirm-input');
 
-    alert('h')
 
 
 
@@ -308,7 +312,7 @@ $the_total_price = total_and_names() ? total_and_names()['the_total'] : null;
                     throw new Error('Something Went Wrong');
                 }
                 
-                const answer = await response.text();
+                const answer = await response.json();
 
                 console.log(answer);
 
@@ -321,6 +325,11 @@ $the_total_price = total_and_names() ? total_and_names()['the_total'] : null;
             
         }
     })
+
+
+    function goHome(){
+        window.location.href = 'home.php';
+    }
 
 
 
