@@ -385,31 +385,55 @@
 
     async function chatAI(the_data){
     
-        console.log(the_data);
+        // console.log(the_data);
+        // const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
+        // const options = {
+        //     method: 'POST',
+        //     headers: {
+        //         'x-rapidapi-key': 'e2b949a7cemsh503ba2581247ed5p1e6919jsnd40034f5a671',
+        //         'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body:JSON.stringify(
+        //         {
+        //             query: `BASED ON THOSE DATA ${JSON.stringify(the_data)} PREDICT THE FUTURE SALES and provide for me a dataset like this with the predictions please also send the dataset in the same format! ALSO PLEASE SEND ME JUST THE DATASET WITHOUT EXTRA TALK OR INFO PLEASE.`,
+
+        //         }
+        //     ) 
+        // };
+
+        // try {
+        //     const response = await fetch(url, options);
+        //     const result = await response.json();
+        //     return result;
+        //     console.log(result);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+
         const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
         const options = {
             method: 'POST',
             headers: {
-                'x-rapidapi-key': 'e2b949a7cemsh503ba2581247ed5p1e6919jsnd40034f5a671',
+                'x-rapidapi-key': 'bf2c880334msh410d33d8e6c100ap1359bfjsn82e023423cc0',
                 'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify(
-                {
-                    query: `BASED ON THOSE DATA ${JSON.stringify(the_data)} PREDICT THE FUTURE SALES and provide for me a dataset like this with the predictions please also send the dataset in the same format! ALSO PLEASE SEND ME JUST THE DATASET WITHOUT EXTRA TALK OR INFO PLEASE.`,
-
-                }
-            ) 
+            body:JSON.stringify({
+                query: `BASED ON THOSE DATA ${JSON.stringify(the_data)} PREDICT THE FUTURE SALES and provide for me a dataset like this with the predictions please also send the dataset in the same format! ALSO PLEASE SEND ME JUST THE DATASET WITHOUT EXTRA TALK OR INFO PLEASE.`,
+            })
         };
 
         try {
             const response = await fetch(url, options);
             const result = await response.json();
-            return result;
+            return result
             console.log(result);
         } catch (error) {
             console.error(error);
         }
+
 
     
 }

@@ -1499,6 +1499,121 @@ footer .first-part-content > div{
 }
 
 
+.chat-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.19);
+    opacity:0;
+    width: 300px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+
+    position:absolute;
+    left:20%;
+    bottom:110%;
+    transition:.5s ease-in-out;
+}
+
+        /* Chat window styling */
+.chat-window {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+        /* Message styling */
+.message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.message.user {
+    background-color: #6A5ACD;
+    align-self: flex-end;
+    color:white;
+    font-family:'Athiti';
+}
+
+.message.bot {
+    background-color: #e9e9e9;
+    align-self: flex-start;
+    font-family:'Athiti';
+}
+
+        /* Input area styling */
+.input-area {
+    display: flex;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ddd;
+}
+
+.input-area input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+}
+
+.input-area button {
+    background-color: #6A5ACD;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.input-area button:hover {
+    background-color: #6A5ACD;
+}
+
+        /* Scrollbar styling */
+.chat-window::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 4px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+@media screen and (min-width: 1500px) {
+    body {
+        font-size: 20px;
+    }
+
+    .upper-nav{
+        height:60px;
+    }
+
+    .upper-nav .phone-part p{
+        font-size:18px;
+    }
+
+    .upper-nav .free-part span{
+        font-size:18px;
+    }
+
+    .container .first-half-container .text-button p{
+        font-size:22px;
+    }
+}
+
+
 
 
 
@@ -1849,19 +1964,19 @@ footer .first-part-content > div{
 
    </footer>
 
-   <button id='speak'>Speak</button>
-   <p id='output'></p>
-
-   <button id='endTalk'>End Talk</button>
+   
 
    <div class="chat-part">
-        <i class='fa fa-comment'></i>
-        <div class="tooltip-user">
-            <p id='user-paragraph'></p>
+        <i class='fa fa-comment' style='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)' id='icon-part'></i>
+        <div class="chat-container">
+            <div class="chat-window" id="chatWindow">
+            </div>
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Type a message..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
         </div>
-        <div class="tooltip-computer">
-            <p id='AI-paragraph'></p>
-        </div>
+
    </div>
  
 
@@ -2446,380 +2561,130 @@ function gettingNumberOfPages(numberOfPages){
     })
 
 
-
-    // var speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    // if(speechRecognition){
-    //     var speak = document.getElementById('speak');
-
-    //     var the_output_element = document.getElementById('output');
-
-    //     const recognition = new speechRecognition();
-
-
-    //     recognition.lang = 'en-US';
-    //     recognition.interimResults = true;
-    //     recognition.maxAlternatives = 1;
-    //     recognition.continuous = true; 
-
-
-    //     let full_transcript = '';
-    //     var my_var = '';
-
-    //     var j = 0;
-
-
-    //     recognition.onresult = function(event){ 
-
-    //         let transcript = '';
-
-    //         for(let i = event.resultIndex;i<event.results.length;i++){
-    //             if(event.results[i].isFinal){ // if the isFinal attribute is true then go on and save to the 
-    //                 // transcript the result
-    //                 // this is because the onresult event might repeat for one speak multiple times
-    //                 // adding the same word to the transcript variable
-    //                 transcript += event.results[i][0].transcript;
-    //             }
-                
-    //         }
-
-
-
-    //         the_output_element.innerHTML =  transcript;
-
-    //         full_transcript += the_output_element.innerHTML;
-
-
-
-
-    //     }
-
-
-        /// go on and make a stop to the speech once you stop the speech
-        /// take the variable that holds the whole speech 
-        /// and then send that speech to openAI 
-        /// to search for a product
-        /// and then where are multiple choices or only one choice
-        /// make the text-to-speech with the chatgpt text
-        /// and after that make the speech again start
-        /// and then also do the same thing with the speech talked
-        /// and again make the request to the chatgpt with the results
-        /// and after the results
-        /// make the page go immeaditly to a particular page for example the page of that product
-
-
-
-
-
-
-
-    //     recognition.onerror = function(event){
-    //         the_output_element.innerHTML = 'Error Occoured ' + event.error;
-    //     }
-
-
-    //     speak.addEventListener('click',()=>{
-    //         recognition.start();
-    //         the_output_element.innerHTML = 'Im Listening';
-    //     })
-
-    // }else{
-    //     console.log('noo');
-    // }
+    
 
     var cart = document.querySelector('.cart');
 
 
     cart.onclick = function(){
-        alert('Hello Dren!');
         window.location.href = 'cart.php';
     }
     
 
-    var the_user_paragraph = document.getElementById('user-paragraph');
+let the_chat = document.querySelector('#icon-part');
 
-    var the_AI_paragraph = document.getElementById('AI-paragraph');
+function changeChatState(){
+    the_chat.onclick = function(){
+        var chat_container = document.querySelector('.chat-container');
 
+        setTimeout(()=>{
+            chat_container.style.opacity = 1;
+        },150);
 
-    class textController{
-
-   
-        textToSpeech(the_content){
-            if('speechSynthesis' in window){
-                var utterance = new SpeechSynthesisUtterance(the_content);
-                utterance.rate = 1;
-                utterance.pitch = 1;
-                utterance.volume = 1;
-
-                window.speechSynthesis.speak(utterance);
-
-
-                lettersMoving(the_content,the_user_paragraph);
-
-                utterance.onend = function(){
-                    the_speech_controller.startingSpeech();
-                    the_speech_controller.checkingForSpeechs();
-                }
-            }
-            
-            }
-
-        
-
-        first_speech(the_content_speech){
-            if('speechSynthesis' in window){
-                var my_utterance = new SpeechSynthesisUtterance(the_content_speech);
-
-                my_utterance.rate = 1;
-                my_utterance.pitch = 1;
-                my_utterance.volume = 1;
-
-                window.speechSynthesis.speak(my_utterance);
-
-                lettersMoving(the_content_speech,the_AI_paragraph);
-
-                my_utterance.onend = function(){
-                    the_speech_controller.startingSpeech();
-                    the_speech_controller.checkingForSpeechs();
-                }
-
-                
-            }
+        the_chat.onclick = function(){
+            chat_container.style.opacity = 0;
+            changeChatState();
         }
-
-        cancelUtterance(){
-            window.speechSynthesis.cancel();
-        }
-
-        
     }
-
-    const the_text_to_speech = new textController();
-
-    let verify_talk = false;
-    class speechControler{
-        
-        constructor(){
-            const speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
-
-            
-            if(speechRecognition){
-                this.recognition = new speechRecognition();
-
-                this.recognition.lang = 'en-US';
-                this.recognition.interimResults = true;
-                this.recognition.maxAlternatives = 1;
-                this.recognition.continuous = true;
-            }
-         
-        }
-
-
-        startingSpeech(){
-            this.recognition.start(); // start the speech
-        }
-
-        checkingForSpeechs(){
-            let the_value = ''
-            this.recognition.onresult = function(event){
-
-                let transcript = '';
-
-                for(let i = event.resultIndex;i<event.results.length;i++){
-                    if(event.results[i].isFinal){
-                        transcript += event.results[i][0].transcript;
-                    }
-                }
-
-                the_value += transcript;
-
-                the_user_paragraph.innerHTML = the_value;                
-
-            }
-
-            
-
-            
-            
-        }
-
-        hasUserStopTalking(callback){
-
-            let is_user_talking = false;
-            this.recognition.onspeechend = function(){
-                is_user_talking = true;
-                callback(is_user_talking); // ka me u thirr qiky funksion
-                // me ni vler 
-                // edhe qiky funksion u bo pass sikur nje callback function
-                // edhe eka ni parameter ku ka me check nese qaj parameter
-                // osht true or false
-                // nese osht true bon diqka otherwise bon diqka tjeter
-            }
-           
-            callback(is_user_talking);
-
-            // nese koka e vertet qe useri u nal edhe nuk po fol
-            // mo boje ni request domethane 
-            // qe i mbledh maspari te dhenat per tfolmen qe eka bo aj user
-            // edhe ja dergon chatit
-        }
-
-        endTalk(){
-            this.recognition.stop();
-        }
-
-
-    }
-
-
-    const the_speech_controller = new speechControler();
-
     
-    // the_speech_controller.startingSpeech();
+}
 
-    // var the_value = the_speech_controller.checkingForSpeechs();
+changeChatState();
 
-    setTimeout(()=>{
-        the_speech_controller.hasUserStopTalking((the_param)=>{
-            if(!the_param){
-                console.log('User Is Talking');
-            }else{
-                console.log('User Stopped Talking!');
-                var the_value = document.getElementById('output').innerHTML;
-                chatAI(the_value).then(response=>{
-                    var the_answer = response.result;
-                    the_text_to_speech.textToSpeech(the_answer);
-                });
-            }
+
+function createMessage(content, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(sender);
+    messageDiv.textContent = content;
+    document.getElementById('chatWindow').appendChild(messageDiv);
+    document.getElementById('chatWindow').scrollTop = document.getElementById('chatWindow').scrollHeight;
+}
+
+        // Send message function
+function sendMessage() {
+    const userInput = document.getElementById('userInput');
+    const userMessage = userInput.value.trim();
+
+    if (userMessage) {
+                // Display the user's message
+        createMessage(userMessage, 'user');
+
+                // Clear the input field
+        userInput.value = '';
+
+        var the_chat_answer = chatAI(userMessage);
+
+        the_chat_answer.then(answer=>{
+            var the_response = answer.response;
+            console.log(the_response);
+            createMessage(the_response,'bot');
         })
-    },100)
 
-
-
-    // make the function that when the start button is clicked
-    // then the tooltip appears and says like hello how can we help you about the shop today!
-   
-function lettersMoving(the_content,the_element){
-        var i = 0;
-        var the_parent_div = the_element.parentElement;
-        the_parent_div.style.zIndex = 1000;
-        let my_interval = setInterval(()=>{
-            if(i == the_content.length){
-                clearInterval(my_interval);
-            }else{
-                the_element.innerHTML += the_content[i];
-                i++;
-            }
-        },50)
+                // Simulate bot reply
+       
+        }
     }
 
-async function chatAI(the_prompt){
+        // Handle Enter key press for sending messages
+    document.getElementById('userInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+
+async function chatAI(the_data){
+    var the_products = localStorage.getItem('data-product');
+
     const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
     const options = {
         method: 'POST',
         headers: {
-            'x-rapidapi-key': 'e2b949a7cemsh503ba2581247ed5p1e6919jsnd40034f5a671',
+            'x-rapidapi-key': 'bf2c880334msh410d33d8e6c100ap1359bfjsn82e023423cc0',
             'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
             'Content-Type': 'application/json'
         },
-        body:JSON.stringify(
-            {
-                query: `Generate a ${the_prompt} related product with the format: product name(only the name of the product) product price(only the price of the product)product description (short). Separate each by * and price as a number only. No extra details.`
-
-            }
-        ) 
+        body:JSON.stringify({
+            query:`The Products: ${the_products} If the future prompt is something related to ShopCart store products,based on those products i gave you answer please with the info you have and dont say that you dont have anymore info if not asked about them act normally! THE PROMPT:${the_data}`,
+        })
     };
 
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        return result;
+        return result
         console.log(result);
     } catch (error) {
         console.error(error);
     }
 
-    
-
 }
 
-    
+async function productDetails(){
+    const response = await fetch('orderDetails.php');
+    const answer = await response.json();
 
+    var into_json = JSON.stringify(answer);
 
+    localStorage.setItem('data-product',into_json);
+}
 
-
-document.getElementById('endTalk').addEventListener('click',function(){
-    the_speech_controller.endTalk();
-    the_text_to_speech.cancelUtterance();
-    document.getElementById('output').innerHTML = '';
-})
-
-let the_chat = document.querySelector('.chat-part');
-
-the_chat.addEventListener('click',function(){
-    the_text_to_speech.first_speech('Hello Welcome To Our Store!');
-})
+productDetails();
 
 
 
 
 
-    // first i need to 
-    // zgjidhe problemin
-    // se qysh kome rujt speech perderisa useri osht duke fol
-    // maspari sa her qe recognition osht onresult
-    // me thirr ni funksion te caktum
-    // qe ma run krejt mesazhin te cilin e ka fol useri
-    // tani qat mesazh masi tja qoj domethan une 
-    // chatit atehere e boj ni text to speech me response
-    // edhe mas responses 
-    // e boj restart again per me fol useri edhe e boj repeat qit proces disa here
-
-//     function pauseRecognition() {
-//   recognition.abort(); // Pauses and stops the recognition
-//   console.log("Recognition paused");
-// }
-
-
-    // function startSpeech(){
-    //     var speechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
-
-    //     const speechRecognitionInstance = new speechRecognition();
-
-    //     speechRecognitionInstance.start();
 
 
 
 
-    // }
-
-
-    
 
 
 
-    // after I save on the variable the result from all the text-speech 
-    // every time i talk i will send it automaticlly to the chat api and he will generate me a product about that
 
-    // function textToSpeech(){
-    //     speak.onclick = function(){
-    //         var the_content = speak.textContent;
-
-
-    //         if('speechSynthesis' in window){
-    //             var utterance = new SpeechSynthesisUtterance(the_content);
-
-    //             utterance.rate = 1;
-    //             utterance.pitch = 1;
-    //             utterance.volume = 1;
-
-    //             window.speechSynthesis.speak(utterance);
-    //         }
-    //     }
-    // }
-
-    // textToSpeech();
-
+  
     
 
 </script>

@@ -826,6 +826,20 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
         }
        
 
+        @media screen and (min-width:1500px){
+            .container .nav-bar .profile-admin{
+                height:70px;
+            }
+            p:not(.fun-stat){
+                font-size:30px;
+            }
+            .fun-stat{
+                font-size:40px;
+            }
+            span{
+                font-size:20px;
+            }
+        }
 
 
 
@@ -913,7 +927,7 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
                                 </div>
                                 <div class='statistics-info'>
                                     <div class="statistics">
-                                        <p><?php echo $numberOfTotalOrders ?><br></p>
+                                        <p class='fun-stat'><?php echo $numberOfTotalOrders ?><br></p>
                                         <span>See Number Of Orders There!</span>
                                     </div>
                                 </div>
@@ -927,8 +941,8 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
                                 </div>
                                 <div class='statistics-info'>
                                     <div class="statistics">
-                                        <p class='money'><?php echo $total ?>&euro;<br></p>
-                                        <p class='percentage'><?php echo $the_profit;?>% <i style='font-size:12px;'>profit</i></p>
+                                        <p class='money fun-stat'><?php echo $total ?>&euro;<br></p>
+                                        <p class='percentage fun-stat'><?php echo $the_profit;?>% <i style='font-size:12px;'>profit</i></p>
                                         <span>See Total Money Made There!</span>
                                     </div>
                                 </div>
@@ -942,7 +956,7 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
                                 </div>
                                 <div class="statistics-info">
                                     <div class="statistics">
-                                        <p><?php echo $number_of_active_products?></p>
+                                        <p class='fun-stat'><?php echo $number_of_active_products?></p>
                                         <span>See Active Products You Have!</span>
                                     </div>
                                 </div>
@@ -1016,60 +1030,7 @@ $website_news = seeNews($currDate) ? seeNews($currDate) : [];
 
 
 
-    // function addingProduct(){
-    //     var getting_image = null;
-
-    //     var image = document.getElementById('image_file');
-    //     var product_price = document.getElementById('product_price');
-    //     var productName = document.getElementById('productName');
-    //     var productCategory = document.getElementById('category');
-    //     var product_in_stock = document.getElementById('product_in_stock');
-
-    //     image.onchange = function(event){
-    //         getting_image = event.target.files[0];
-    //         console.log('hello')
-    //         console.log(getting_image);
-    //     }
-
-
-    //     var the_product_data = {
-    //         product_name:'',
-    //         product_image:'',
-    //         product_price:'',
-    //         product_category:''
-    //     }
-
-    //     var the_product = document.getElementById('addProduct');
-
-    //     the_product.addEventListener('click',function(){
-    //         const the_form_data = new FormData();
-    //         if(getting_image){
-
-    //             the_form_data.append('image',getting_image);
-    //             the_form_data.append('product_name',productName.value);
-    //             the_form_data.append('product_category',productCategory.value);
-    //             the_form_data.append('product_price',product_price.value);
-    //             the_form_data.append('product_in_stock',product_in_stock.value);
-    //             console.log('hello')
-
-    //             var the_context = {
-    //                 method:'POST',
-    //                 headers:{
-    //                     'X-REQUESTED-WITH':'XMLHttpRequest'
-    //                 },
-    //                 body:the_form_data
-    //             };
-
-    //             fetch('addProduct.php',the_context).then(response=>{
-    //                 return response.text();
-    //             }).then(answer=>{
-    //                 console.log(answer);
-    //             })
-    //         }
-    //     })
-    // }
-    // addingProduct();
-
+    
     var money = document.querySelector('.money');
     var percentage = document.querySelector('.percentage');
     function changing(){
@@ -1299,28 +1260,24 @@ async function askingAI(category_name){
 
 
 async function chatAI(the_prompt){
-    
-
     const url = 'https://chatgpt-gpt5.p.rapidapi.com/ask';
     const options = {
         method: 'POST',
         headers: {
-            'x-rapidapi-key': 'e2b949a7cemsh503ba2581247ed5p1e6919jsnd40034f5a671',
+            'x-rapidapi-key': 'bf2c880334msh410d33d8e6c100ap1359bfjsn82e023423cc0',
             'x-rapidapi-host': 'chatgpt-gpt5.p.rapidapi.com',
             'Content-Type': 'application/json'
         },
-        body:JSON.stringify(
-            {
-                // query: `Give Me  a random ${the_prompt} category related product like this: product name(only the name of the product) product price(only the price of the product)product description (short). Separate each by * and price as a number only. No extra details please.`
-                query: `Give Me A Product About this category ${the_prompt} ONLY THE PRODUCT NAME AND GIVE ME PRODUCT PRICE PRODUCT DESCRIPTION ALL SEPERATED BY * AND DONT GIVE LABELS JUST VALUES AND WHEN YOU GENERATE THE PRICE GENERATE IT WITHOUT THE DOLLAR SIGN JUST THE NUMBER`
-            }   
-        ) 
+        body:JSON.stringify({
+            query: `Give Me A Product About this category ${the_prompt} ONLY THE PRODUCT NAME AND GIVE ME PRODUCT PRICE PRODUCT DESCRIPTION ALL SEPERATED BY * AND DONT GIVE LABELS JUST VALUES AND WHEN YOU GENERATE THE PRICE GENERATE IT WITHOUT THE DOLLAR SIGN JUST THE NUMBER`
+
+        })
     };
 
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        return result;
+        return result
         console.log(result);
     } catch (error) {
         console.error(error);
